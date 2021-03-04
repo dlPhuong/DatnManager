@@ -13,4 +13,21 @@
         <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
         <!-- Customize your theme here. -->
     </style>
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/purple_200</item>
+        <item name="colorPrimaryDark">@color/purple_500</item>
+        <item name="colorAccent">@color/purple_700</item>
+        <item name="android:fontFamily">@font/font_framily</item>
+    </style>
+
+    <style name="myFullscreenAlertDialogStyle" parent="Theme.AppCompat.Light.NoActionBar">//no
+        actionbar, but status bar exists
+        <item name="android:windowFullscreen">true</item>
+        //remove status bar
+        <item name="colorAccent">@color/purple_200</item>
+        //change button text color
+    </style>
 </resources>
