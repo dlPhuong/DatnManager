@@ -1,0 +1,40 @@
+{
+  "generator-jhipster": {
+    "promptValues": {
+      "packageName": "com.phuong.datn"
+    },
+    "jhipsterVersion": "6.10.5",
+    "applicationType": "monolith",
+    "baseName": "Web",
+    "packageName": "com.phuong.datn",
+    "packageFolder": "com/phuong/datn",
+    "serverPort": "8080",
+    "authenticationType": "jwt",
+    "cacheProvider": "ehcache",
+    "enableHibernateCache": true,
+    "websocket": false,
+    "databaseType": "sql",
+    "devDatabaseType": "mysql",
+    "prodDatabaseType": "mysql",
+    "searchEngine": false,
+    "messageBroker": false,
+    "serviceDiscoveryType": false,
+    "buildTool": "maven",
+    "enableSwaggerCodegen": false,
+    "jwtSecretKey": "NjM2YzZkMDA2MDc4MmMxZTc4ZTY1NmQ5Yzc1NGNkOTI5N2E2ZmNjNTYyNGMyZDZjZmFjZmU2ZDkzNGNmOWM0MzY2Yjc5MzdhZWZiN2UxMWIyYTJhODU0ODM5NDE5MmY5ZGJlNWE2OGQzNDQwNTUzMzQ1YzMzNzYwY2YwYzM0YWQ=",
+    "embeddableLaunchScript": false,
+    "useSass": true,
+    "clientPackageManager": "npm",
+    "clientFramework": "react",
+    "clientTheme": "lumen",
+    "clientThemeVariant": "light",
+    "creationTimestamp": 1614868662170,
+    "testFrameworks": ["gatling"],
+    "jhiPrefix": "jhi",
+    "entitySuffix": "",
+    "dtoSuffix": "DTO",
+    "otherModules": [],
+    "enableTranslation": false,
+    "blueprints": []
+  }
+}
