@@ -1,5 +1,7 @@
 package com.example.tpbook.model.viewmodel;
 
+import android.util.Log;
+
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
@@ -25,12 +27,16 @@ public class loginViewModel extends ViewModel {
             public void onResponse(Call<TokenResponse> call, Response<TokenResponse> response) {
                 if(response.isSuccessful()){
                     newsData.setValue(response.body());
+                }else{
+                    TokenResponse res = new TokenResponse();
+                    res.setIdToken(""+response.code());
+                    newsData.setValue(res);
                 }
             }
 
             @Override
             public void onFailure(Call<TokenResponse> call, Throwable t) {
-
+                Log.d("TAG", "onFailure: "+t);
             }
         });
         return newsData;
