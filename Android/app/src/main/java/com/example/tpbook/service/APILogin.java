@@ -1,5 +1,6 @@
 package com.example.tpbook.service;
 
+import com.example.tpbook.model.DTO.ManagedUserVM;
 import com.example.tpbook.model.data.User;
 import com.example.tpbook.model.request.LoginRequest;
 import com.example.tpbook.model.response.TokenResponse;
@@ -15,4 +16,8 @@ public interface APILogin {
 
     @GET("api/account")
     Call<User> account();
+
+    @POST("api/register")
+    Call<String> register(@Body ManagedUserVM managedUserVM);
+
 }

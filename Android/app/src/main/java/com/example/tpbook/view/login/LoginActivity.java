@@ -18,6 +18,7 @@ import com.example.tpbook.model.viewmodel.loginViewModel;
 import com.example.tpbook.utils.Commons;
 import com.example.tpbook.utils.SharedPref;
 import com.example.tpbook.view.MainPage.MainPageActivity;
+import com.example.tpbook.view.Register.RegisterActivity;
 
 public class LoginActivity extends AppCompatActivity {
     ActivityLoginBinding binding;
@@ -34,6 +35,13 @@ public class LoginActivity extends AppCompatActivity {
 
         binding.edtUser.setText(""+SharedPref.read(SharedPref.USER,""));
         binding.edtPass.setText(""+SharedPref.read(SharedPref.PASS,""));
+
+        binding.btnDangky.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(LoginActivity.this, RegisterActivity.class));
+            }
+        });
 
 
         binding.btnLogin.setOnClickListener(new View.OnClickListener() {

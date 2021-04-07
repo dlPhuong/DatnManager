@@ -5,6 +5,7 @@ import android.util.Log;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
+import com.example.tpbook.model.DTO.ManagedUserVM;
 import com.example.tpbook.model.data.User;
 import com.example.tpbook.model.request.LoginRequest;
 import com.example.tpbook.model.response.TokenResponse;
@@ -58,6 +59,22 @@ public class loginViewModel extends ViewModel {
 
            }
        });
+        return newsData;
+    }
+
+    public MutableLiveData<String> signIn(ManagedUserVM managedUserVM){
+        final MutableLiveData<String> newsData = new MutableLiveData<>();
+        apiLogin.register(managedUserVM).enqueue(new Callback<String>() {
+            @Override
+            public void onResponse(Call<String> call, Response<String> response) {
+                newsData.setValue("đăng ký thành công");
+            }
+
+            @Override
+            public void onFailure(Call<String> call, Throwable t) {
+                newsData.setValue("đăng ký thành công");
+            }
+        });
         return newsData;
     }
 }
