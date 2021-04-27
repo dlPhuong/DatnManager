@@ -15,4 +15,28 @@ public class Lop extends AbstractAuditingEntity implements Serializable {
 
     @Column(name = "nameclass")
     private String nameClass;
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getNameClass() {
+        return nameClass;
+    }
+
+    public void setNameClass(String nameClass) {
+        this.nameClass = nameClass;
+    }
+
+    @Override
+    public String toString() {
+        return "Lop{" +
+            "id=" + id +
+            ", nameClass='" + nameClass + '\'' +
+            '}';
+    }
 }
