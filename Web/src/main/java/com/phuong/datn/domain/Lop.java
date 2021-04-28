@@ -9,6 +9,11 @@ import java.io.Serializable;
 public class Lop extends AbstractAuditingEntity implements Serializable {
     private static final long serialVersionUID = 1L;
 
+    public Lop(Long id, String nameClass) {
+        this.id = id;
+        this.nameClass = nameClass;
+    }
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
