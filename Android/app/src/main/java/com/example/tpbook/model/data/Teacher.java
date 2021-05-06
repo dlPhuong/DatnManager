@@ -23,6 +23,17 @@ public class Teacher {
     @SerializedName("idClass")
     @Expose
     private String idClass;
+    @SerializedName("image")
+    @Expose
+    private String image;
+
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
+    }
 
     public Integer getId() {
         return id;
@@ -81,6 +92,7 @@ public class Teacher {
                 ", address='" + address + '\'' +
                 ", phone='" + phone + '\'' +
                 ", idClass='" + idClass + '\'' +
+                ", image='" + image + '\'' +
                 '}';
     }
 }

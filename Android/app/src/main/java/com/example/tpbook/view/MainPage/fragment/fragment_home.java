@@ -11,20 +11,36 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
 
 import com.example.tpbook.databinding.FragmentHomeBinding;
+import com.example.tpbook.model.data.Report;
+import com.example.tpbook.model.data.Teacher;
+import com.example.tpbook.model.response.ReportResponse;
+import com.example.tpbook.model.response.TeacherResponse;
+import com.example.tpbook.model.viewmodel.loginViewModel;
+import com.example.tpbook.model.viewmodel.reportViewModel;
+import com.example.tpbook.model.viewmodel.teacherViewModel;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class fragment_home extends Fragment {
     FragmentHomeBinding binding;
 
 
     ExpandableListAdapter expandableListAdapter;
-    List<String> expandableListTitle;
-    HashMap<String, List<String>> expandableListDetail;
+    List<Teacher> expandableListTitle;
+    HashMap<Teacher, List<Report>> expandableListDetail;
+
+    reportViewModel reportViewModel;
+    teacherViewModel teacherViewModel;
+
+    List<Report> reportList = new ArrayList<>();
+    List<Teacher> teacherList = new ArrayList<>();
 
     public fragment_home() {
     }
@@ -33,15 +49,36 @@ public class fragment_home extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         binding = FragmentHomeBinding.inflate(inflater, container, false);
-        eventListview();
-
+        reportViewModel = new ViewModelProvider(getActivity()).get(reportViewModel.class);
+        teacherViewModel = new ViewModelProvider(getActivity()).get(teacherViewModel.class);
+        loadData();
         return binding.getRoot();
+    }
+
+    private void loadData() {
+        reportViewModel.getAllReport().observe(getActivity(), new Observer<ReportResponse>() {
+            @Override
+            public void onChanged(ReportResponse reportResponse) {
+                reportList.addAll(reportResponse.getList());
+            }
+        });
+
+        teacherViewModel.getAllTeacher().observe(getActivity(), new Observer<TeacherResponse>() {
+            @Override
+            public void onChanged(TeacherResponse teacherResponse) {
+                teacherList.addAll(teacherResponse.getList());
+                if(teacherList.size()!=0){
+                    eventListview();
+                }
+            }
+        });
+
     }
 
     private void eventListview() {
 
-        expandableListDetail = ExpandableListDataPump.getData();
-        expandableListTitle = new ArrayList<String>(expandableListDetail.keySet());
+        expandableListDetail = setupData();
+        expandableListTitle = new ArrayList<Teacher>(expandableListDetail.keySet());
         expandableListAdapter = new CustomExpandableListAdapter(getActivity(), expandableListTitle, expandableListDetail);
         binding.expandableListView.setAdapter(expandableListAdapter);
 
@@ -82,5 +119,19 @@ public class fragment_home extends Fragment {
             }
         });
 
+    }
+
+    private HashMap<Teacher, List<Report>> setupData() {
+        HashMap<Teacher, List<Report>> lisresponse = new HashMap<>();
+        for (Teacher teacher : teacherList) {
+            List<Report> list = new ArrayList<>();
+            for (Report report : reportList) {
+                if (report.getIdTeacher().equalsIgnoreCase(teacher.getId().toString())) {
+                    list.add(report);
+                }
+            }
+            lisresponse.put(teacher, list);
+        }
+        return lisresponse;
     }
 }

@@ -29,6 +29,17 @@ public class Teacher extends AbstractAuditingEntity implements Serializable {
     @Column(name = "idclass")
     private String idClass;
 
+    @Column(name = "image")
+    private String image;
+
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
+    }
+
     public Long getId() {
         return id;
     }
@@ -86,6 +97,7 @@ public class Teacher extends AbstractAuditingEntity implements Serializable {
             ", address='" + address + '\'' +
             ", phone='" + phone + '\'' +
             ", idClass='" + idClass + '\'' +
+            ", image='" + image + '\'' +
             '}';
     }
 }
