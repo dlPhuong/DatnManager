@@ -1,6 +1,7 @@
 import axios from 'axios';
 
 import { REQUEST, SUCCESS, FAILURE } from 'app/shared/reducers/action-type.util';
+import {log} from "react-jhipster";
 
 export const ACTION_TYPES = {
   CREATE_ACCOUNT: 'register/CREATE_ACCOUNT',
@@ -16,10 +17,10 @@ const initialState = {
   listStudent: {} as any,
 };
 
-export type RegisterState = Readonly<typeof initialState>;
+export type StudentState = Readonly<typeof initialState>;
 
 // Reducer
-export default (state: RegisterState = initialState, action): RegisterState => {
+export default (state: StudentState = initialState, action): StudentState => {
   switch (action.type) {
     case REQUEST(ACTION_TYPES.CREATE_ACCOUNT):
     case REQUEST(ACTION_TYPES.GET_STUDENT):
@@ -63,9 +64,9 @@ export const handleRegister = (login, email, password, langKey = 'en') => ({
 });
 
 // load sinh viên
-export const getStudent = () => ({
+export const getStudent = async () => ({
   type: ACTION_TYPES.GET_STUDENT,
-  payload: axios.get('api/getAllStudent'),
+  payload: await axios.get('api/getAllStudent'),
 });
 
 export const reset = () => ({
