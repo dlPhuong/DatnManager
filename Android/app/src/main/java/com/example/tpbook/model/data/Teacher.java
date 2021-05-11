@@ -27,6 +27,16 @@ public class Teacher {
     @Expose
     private String image;
 
+    private static Teacher teacher = new Teacher();
+
+    public Teacher() {
+    }
+
+    public static Teacher getTeacher() {
+        return teacher;
+    }
+
+
     public String getImage() {
         return image;
     }

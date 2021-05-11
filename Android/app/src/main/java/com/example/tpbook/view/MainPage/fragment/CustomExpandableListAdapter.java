@@ -16,6 +16,7 @@ import com.example.tpbook.R;
 import com.example.tpbook.databinding.ListItemBinding;
 import com.example.tpbook.model.data.Report;
 import com.example.tpbook.model.data.Teacher;
+import com.example.tpbook.model.data.Topic;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -23,11 +24,11 @@ public class CustomExpandableListAdapter extends BaseExpandableListAdapter {
 
     private Context context;
     private List<Teacher> expandableListTitle;
-    private HashMap<Teacher, List<Report>> expandableListDetail;
+    private HashMap<Teacher, List<Topic>> expandableListDetail;
     ListItemBinding binding;
 
 
-    public CustomExpandableListAdapter(Context context, List<Teacher> expandableListTitle, HashMap<Teacher, List<Report>> expandableListDetail) {
+    public CustomExpandableListAdapter(Context context, List<Teacher> expandableListTitle, HashMap<Teacher, List<Topic>> expandableListDetail) {
         this.context = context;
         this.expandableListTitle = expandableListTitle;
         this.expandableListDetail = expandableListDetail;
@@ -35,7 +36,7 @@ public class CustomExpandableListAdapter extends BaseExpandableListAdapter {
 
     @Override
     public Object getChild(int listPosition, int expandedListPosition) {
-        return this.expandableListDetail.get(this.expandableListTitle.get(listPosition)).get(expandedListPosition).getNameReport();
+        return this.expandableListDetail.get(this.expandableListTitle.get(listPosition)).get(expandedListPosition).getTopicName();
 
     }
 

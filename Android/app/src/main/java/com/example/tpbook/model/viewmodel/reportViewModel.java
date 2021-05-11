@@ -14,6 +14,7 @@ import com.example.tpbook.model.response.ReportResponse;
 import com.example.tpbook.model.response.TokenResponse;
 import com.example.tpbook.service.APILogin;
 import com.example.tpbook.service.APIReport;
+import com.example.tpbook.service.APITopic;
 import com.example.tpbook.service.ServiceGenerator;
 import com.example.tpbook.utils.Commons;
 
@@ -25,7 +26,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class reportViewModel extends ViewModel {
-    private APIReport apiReport = ServiceGenerator.createService(APIReport.class);
+    private APITopic apiReport = ServiceGenerator.createService(APITopic.class);
 
     private APILogin apiLoginWithAuth = ServiceGenerator.createService(APILogin.class, Commons.auth);
 

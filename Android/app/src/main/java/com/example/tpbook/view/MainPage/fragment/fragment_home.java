@@ -1,5 +1,6 @@
 package com.example.tpbook.view.MainPage.fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,14 +15,18 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.example.tpbook.MainActivity;
 import com.example.tpbook.databinding.FragmentHomeBinding;
 import com.example.tpbook.model.data.Report;
 import com.example.tpbook.model.data.Teacher;
+import com.example.tpbook.model.data.Topic;
 import com.example.tpbook.model.response.ReportResponse;
 import com.example.tpbook.model.response.TeacherResponse;
 import com.example.tpbook.model.viewmodel.loginViewModel;
 import com.example.tpbook.model.viewmodel.reportViewModel;
 import com.example.tpbook.model.viewmodel.teacherViewModel;
+import com.example.tpbook.utils.Commons;
+import com.example.tpbook.view.TopicActivity;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -34,13 +39,15 @@ public class fragment_home extends Fragment {
 
     ExpandableListAdapter expandableListAdapter;
     List<Teacher> expandableListTitle;
-    HashMap<Teacher, List<Report>> expandableListDetail;
+    HashMap<Teacher, List<Topic>> expandableListDetail;
 
     reportViewModel reportViewModel;
     teacherViewModel teacherViewModel;
 
-    List<Report> reportList = new ArrayList<>();
+    List<Topic> reportList = new ArrayList<>();
     List<Teacher> teacherList = new ArrayList<>();
+
+    Teacher teacher123 = Teacher.getTeacher();
 
     public fragment_home() {
     }
@@ -60,18 +67,20 @@ public class fragment_home extends Fragment {
             @Override
             public void onChanged(ReportResponse reportResponse) {
                 reportList.addAll(reportResponse.getList());
+                teacherViewModel.getAllTeacher().observe(getActivity(), new Observer<TeacherResponse>() {
+                    @Override
+                    public void onChanged(TeacherResponse teacherResponse) {
+                        teacherList.addAll(teacherResponse.getList());
+                        if(teacherList.size()!=0){
+                            eventListview();
+                        }
+                    }
+                });
+
             }
         });
 
-        teacherViewModel.getAllTeacher().observe(getActivity(), new Observer<TeacherResponse>() {
-            @Override
-            public void onChanged(TeacherResponse teacherResponse) {
-                teacherList.addAll(teacherResponse.getList());
-                if(teacherList.size()!=0){
-                    eventListview();
-                }
-            }
-        });
+
 
     }
 
@@ -115,17 +124,19 @@ public class fragment_home extends Fragment {
                                 expandableListTitle.get(groupPosition)).get(
                                 childPosition), Toast.LENGTH_SHORT
                 ).show();
+                Commons.topic = expandableListDetail.get(expandableListTitle.get(groupPosition)).get(childPosition);
+                startActivity(new Intent(getActivity(), TopicActivity.class));
                 return false;
             }
         });
 
     }
 
-    private HashMap<Teacher, List<Report>> setupData() {
-        HashMap<Teacher, List<Report>> lisresponse = new HashMap<>();
+    private HashMap<Teacher, List<Topic>> setupData() {
+        HashMap<Teacher, List<Topic>> lisresponse = new HashMap<>();
         for (Teacher teacher : teacherList) {
-            List<Report> list = new ArrayList<>();
-            for (Report report : reportList) {
+            List<Topic> list = new ArrayList<>();
+            for (Topic report : reportList) {
                 if (report.getIdTeacher().equalsIgnoreCase(teacher.getId().toString())) {
                     list.add(report);
                 }

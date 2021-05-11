@@ -22,6 +22,28 @@ public class Topic extends AbstractAuditingEntity implements Serializable {
     @Column(name = "status")
     private String status;
 
+    @Column(name = "idTeacher")
+    private String idTeacher;
+
+    @Column(name = "idStudent")
+    private String idStudent;
+
+    public String getIdTeacher() {
+        return idTeacher;
+    }
+
+    public void setIdTeacher(String idTeacher) {
+        this.idTeacher = idTeacher;
+    }
+
+    public String getIdStudent() {
+        return idStudent;
+    }
+
+    public void setIdStudent(String idStudent) {
+        this.idStudent = idStudent;
+    }
+
     public Long getId() {
         return id;
     }
@@ -61,6 +83,8 @@ public class Topic extends AbstractAuditingEntity implements Serializable {
             ", topicName='" + topicName + '\'' +
             ", description='" + description + '\'' +
             ", status='" + status + '\'' +
+            ", idTeacher='" + idTeacher + '\'' +
+            ", idStudent='" + idStudent + '\'' +
             '}';
     }
 }

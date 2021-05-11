@@ -12,7 +12,7 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class RetrofitService {
-    public static String basePath = "http://172.24.48.1:8080/";
+    public static String basePath = "http://172.30.128.1:8080/";
     //public static String basePath = "http://43d2aebdbcea.ngrok.io/api/";
 
     private static OkHttpClient client = new OkHttpClient.Builder().addInterceptor(new Interceptor() {

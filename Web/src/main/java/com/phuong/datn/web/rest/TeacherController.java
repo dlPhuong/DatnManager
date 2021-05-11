@@ -8,6 +8,7 @@ import com.phuong.datn.domain.Teacher;
 import com.phuong.datn.repository.FileRepository;
 import com.phuong.datn.repository.ReportRepository;
 import com.phuong.datn.repository.TeacherRepository;
+import com.phuong.datn.repository.TopicRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -25,12 +26,12 @@ public class TeacherController {
     TeacherRepository teacherRepository;
 
     @Autowired
-    ReportRepository reportRepository;
+    TopicRepository topicRepository;
 
-    @GetMapping("/getAllReport")
+    @GetMapping("/getAllTopic")
     public BaseResponse getAllReport() {
 
-        BaseResponse baseResponse = new BaseResponse(Commons.SUCCESS, Commons.SUCCESS, reportRepository.findAll());
+        BaseResponse baseResponse = new BaseResponse(Commons.SUCCESS, Commons.SUCCESS, topicRepository.findAll());
         return baseResponse;
     }
 
