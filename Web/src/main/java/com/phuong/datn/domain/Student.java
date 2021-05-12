@@ -14,6 +14,9 @@ public class Student extends AbstractAuditingEntity implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(name = "masinhvien")
+    private String maSinhVien;
+
     @Column(name = "name")
     private String name;
 
@@ -152,6 +155,14 @@ public class Student extends AbstractAuditingEntity implements Serializable {
 
     public void setNote(String note) {
         this.note = note;
+    }
+
+    public String getMaSinhVien() {
+        return maSinhVien;
+    }
+
+    public void setMaSinhVien(String maSinhVien) {
+        this.maSinhVien = maSinhVien;
     }
 
     @Override

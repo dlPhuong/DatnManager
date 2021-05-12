@@ -30,7 +30,7 @@ const Routes = () => (
   <div className="view-routes">
     <Switch>
 
-      <ErrorBoundaryRoute path="/student" component={StudentPage} />
+      <PrivateRoute path="/student" component={StudentPage} hasAnyAuthorities={[AUTHORITIES.ADMIN]} />
 
       <ErrorBoundaryRoute path="/login" component={Login} />
       <ErrorBoundaryRoute path="/logout" component={Logout} />

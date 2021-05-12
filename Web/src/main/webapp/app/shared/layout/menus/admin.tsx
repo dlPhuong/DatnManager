@@ -27,7 +27,7 @@ const adminMenuItems = (
       Logs
     </MenuItem>
 
-    <MenuItem icon="tasks" to="/student">
+    <MenuItem icon="user" to="/student">
       Student
     </MenuItem>
 
