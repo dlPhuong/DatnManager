@@ -5,15 +5,13 @@ import {AvForm, AvField} from 'availity-reactstrap-validation';
 
 import PasswordStrengthBar from 'app/shared/layout/password/password-strength-bar';
 import {IRootState} from 'app/shared/reducers';
-import {getStudent, handleRegister, reset, saveStudent} from './student.reducer';
+import {getStudent, handleRegister, removeStudent, reset, saveStudent} from './student.reducer';
 import {Dialog} from "primereact/dialog";
 import {DataTable} from "primereact/datatable";
 import {Column} from "primereact/column";
 import {FileUpload} from "primereact/fileupload";
 import {Button} from 'primereact/button';
 import {InputText} from "primereact/inputtext";
-import {StudentModal} from "app/modules/administration/Student/studentModal";
-import value from "*.json";
 
 export type IRegisterProps = DispatchProps;
 
@@ -29,6 +27,7 @@ export const StudentPage = (props: IRegisterProps) => {
       const student = await getStudent();
       setlistStudent(student.payload.data)
     }
+
     fetchMyAPI();
   }, []);
 
@@ -53,7 +52,8 @@ export const StudentPage = (props: IRegisterProps) => {
     <div className="table-header">
       <Button label="Thêm" icon="pi pi-plus"
               onClick={() => setvisibleModal({vis: true, mode: "Thêm", data: null})}/>
-      <Button label="Không cho bảo vệ" icon="pi pi-times" className="p-button-danger"/>
+      <Button label="Không cho bảo vệ"  onClick={()=>removeStudent(students)} icon="pi pi-times"
+              className="p-button-danger"/>
       <span className="p-input-icon-left">
         <i className="pi pi-search"/>
          <InputText type="search" value={globalFilter} onChange={(e) => setGlobalFilter(e.target.value)}
@@ -81,7 +81,7 @@ export const StudentPage = (props: IRegisterProps) => {
   }
 
   function handleSubmit(event, errors, values) {
-     values.id = visibleModal.data ? visibleModal.data.id:null;
+    values.id = visibleModal.data ? visibleModal.data.id : null;
     saveStudent(values);
     onHide();
     event.preventDefault();
@@ -109,7 +109,7 @@ export const StudentPage = (props: IRegisterProps) => {
         <Column field="name" header="Name"></Column>
         <Column field="address" header="address"></Column>
         <Column field="phone" header="phone"></Column>
-        <Column field="linkGithub" header="linkGithub"></Column>
+        <Column field="status" header="status"></Column>
         <Column body={actionBodyTemplate}></Column>
       </DataTable>
 
@@ -120,16 +120,21 @@ export const StudentPage = (props: IRegisterProps) => {
 
           <AvForm onSubmit={handleSubmit}>
             <AvField name="name" label="Name" value={visibleModal.data ? visibleModal.data.name : null} required/>
-            <AvField name="birthDay" label="ngày sinh" value={visibleModal.data ? visibleModal.data.birthDay : null} required/>
-            <AvField name="address" label="Địa chỉ" value={visibleModal.data ? visibleModal.data.address : null} required/>
+            <AvField name="birthDay" label="ngày sinh" value={visibleModal.data ? visibleModal.data.birthDay : null}
+                     required/>
+            <AvField name="address" label="Địa chỉ" value={visibleModal.data ? visibleModal.data.address : null}
+                     required/>
 
-            <AvField name="idClass" label="mã lớp" value={visibleModal.data ? visibleModal.data.address : null} required/>
+            <AvField name="idClass" label="mã lớp" value={visibleModal.data ? visibleModal.data.address : null}
+                     required/>
 
-            <AvField name="maSinhVien" label="Mã sinh viên" value={visibleModal.data ? visibleModal.data.address : null} required/>
+            <AvField name="maSinhVien" label="Mã sinh viên" value={visibleModal.data ? visibleModal.data.address : null}
+                     required/>
 
-            <AvField name="phone" label="Số điện thoại" value={visibleModal.data ? visibleModal.data.phone : null} required/>
+            <AvField name="phone" label="Số điện thoại" value={visibleModal.data ? visibleModal.data.phone : null}
+                     required/>
             <div className="col">
-              <Button label={visibleModal.mode} icon="pi pi-check" />
+              <Button label={visibleModal.mode} icon="pi pi-check"/>
               <Button label="Cancel" icon="pi pi-times" className="p-button-danger" onClick={onHide}/>
             </div>
           </AvForm>
@@ -148,7 +153,7 @@ export const StudentPage = (props: IRegisterProps) => {
 const mapStateToProps = (storeState: IRootState) => ({
   student: storeState.student.listStudent,
 });
-const mapDispatchToProps = {getStudent,saveStudent, handleRegister, reset};
+const mapDispatchToProps = {getStudent, saveStudent, removeStudent, handleRegister, reset};
 type DispatchProps = typeof mapDispatchToProps;
 
 export default connect(null, mapDispatchToProps)(StudentPage);

@@ -77,13 +77,13 @@ public class StudentController {
     }
 
     @PostMapping("/saveStudent")
-    public void saveStudent(@RequestBody Student student){
+    public void saveStudent(@RequestBody Student student) {
         studentRepository.save(student);
     }
 
     @PostMapping("/removeStudent")
-    public void removeStudent(@RequestBody Student student){
-        studentRepository.save(student);
+    public void removeStudent(@RequestBody List<Student> student) {
+        studentService.removeStudent(student);
     }
 
 }

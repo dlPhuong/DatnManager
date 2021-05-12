@@ -93,6 +93,11 @@ export const saveStudent = async (values) => ({
   payload: await axios.post('api/saveStudent',values),
 });
 
+export const removeStudent = async (values) => ({
+  type: ACTION_TYPES.DELETE_STUDENT,
+  payload: await axios.post('api/removeStudent',values),
+});
+
 export const reset = () => ({
   type: ACTION_TYPES.RESET,
 });

@@ -2,9 +2,11 @@ package com.phuong.datn.service;
 
 
 import com.phuong.datn.domain.Student;
+import com.phuong.datn.repository.StudentRepository;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -20,6 +22,9 @@ import java.util.List;
 @Service
 @Transactional
 public class StudentService {
+
+    @Autowired
+    StudentRepository studentRepository;
 
     public List<Student> getListFromExcel(MultipartFile file) throws IOException {
         List<Student> tempStudentList = new ArrayList<Student>();
@@ -57,6 +62,13 @@ public class StudentService {
             return (dateToString);
         }
         return "";
+    }
+
+    public void removeStudent(List<Student> studentList){
+        for (Student student: studentList){
+            student.setStatus("không cho phép bảo vệ");
+            studentRepository.save(student);
+        }
     }
 
 }
