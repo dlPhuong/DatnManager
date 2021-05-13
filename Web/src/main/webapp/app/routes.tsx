@@ -15,6 +15,7 @@ import ErrorBoundaryRoute from 'app/shared/error/error-boundary-route';
 import PageNotFound from 'app/shared/error/page-not-found';
 import { AUTHORITIES } from 'app/config/constants';
 import student, {StudentPage} from "app/modules/administration/Student/student";
+import {TeacherPage} from "app/modules/administration/Teacher/teacher";
 
 const Account = Loadable({
   loader: () => import(/* webpackChunkName: "account" */ 'app/modules/account'),
@@ -31,6 +32,7 @@ const Routes = () => (
     <Switch>
 
       <PrivateRoute path="/student" component={StudentPage} hasAnyAuthorities={[AUTHORITIES.ADMIN]} />
+      <PrivateRoute path="/teacher" component={TeacherPage} hasAnyAuthorities={[AUTHORITIES.ADMIN]} />
 
       <ErrorBoundaryRoute path="/login" component={Login} />
       <ErrorBoundaryRoute path="/logout" component={Logout} />

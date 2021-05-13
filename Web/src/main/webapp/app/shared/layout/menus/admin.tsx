@@ -1,9 +1,9 @@
 import React from 'react';
 import MenuItem from 'app/shared/layout/menus/menu-item';
-import { DropdownItem } from 'reactstrap';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { NavLink as Link } from 'react-router-dom';
-import { NavDropdown } from './menu-components';
+import {DropdownItem} from 'reactstrap';
+import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
+import {NavLink as Link} from 'react-router-dom';
+import {NavDropdown} from './menu-components';
 
 const adminMenuItems = (
   <>
@@ -26,13 +26,9 @@ const adminMenuItems = (
     <MenuItem icon="tasks" to="/admin/logs">
       Logs
     </MenuItem>
-
-    <MenuItem icon="user" to="/student">
-      Student
-    </MenuItem>
-
   </>
 );
+
 
 const swaggerItem = (
   <MenuItem icon="book" to="/admin/docs">
@@ -40,8 +36,8 @@ const swaggerItem = (
   </MenuItem>
 );
 
-export const AdminMenu = ({ showSwagger }) => (
-  <NavDropdown icon="user-plus" name="Administration" style={{ width: '140%' }} id="admin-menu">
+export const AdminMenu = ({showSwagger}) => (
+  <NavDropdown icon="user-plus" name="Administration" style={{width: '140%'}} id="admin-menu">
     {adminMenuItems}
     {showSwagger && swaggerItem}
   </NavDropdown>
