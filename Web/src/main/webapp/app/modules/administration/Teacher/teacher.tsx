@@ -25,6 +25,8 @@ export const TeacherPage = (props: ITeacherPageProps) => {
   const [globalFilter, setGlobalFilter] = useState(null);
   const [visibleModal, setvisibleModal] = useState({vis: false, mode: "", data: null});
   const [selectedFile, setSelectedFile] = useState(null);
+
+  const [fileResponse, setfileResponse] = useState(null);
   const toastTL = useRef(null);
 
   useEffect(() => {
@@ -64,22 +66,28 @@ export const TeacherPage = (props: ITeacherPageProps) => {
     setvisibleModal({vis: false, mode: "", data: null})
   }
 
-  function UploadImage() {
-    const formData = new FormData();
-    formData.append("file", selectedFile);
-    axios
-      .post('api/upload', formData)
-      .then((res) => {
-        return res.data;
-      })
-      .catch((err) => alert("File Upload Error"));
+   async function UploadImage() {
+
   }
 
 
-  async function handleSubmit(event, errors, values) {
+   async function handleSubmit(event, errors, values) {
     values.id = visibleModal.data ? visibleModal.data.id : null;
-    const data = await UploadImage();
-    values.image = data.filename;
+   if(selectedFile){
+      const formData = new FormData();
+      formData.append("file", selectedFile);
+     const result = await axios
+        .post('api/upload', formData)
+        .then((res) => {
+          values.image = res.data.filename;
+          return res;
+        })
+        .catch((err) => alert("File Upload Error"));
+     console.log(result)
+    }
+    console.log(values);
+    //values.image = fileResponse.data.filename;
+
     saveTeacher(values);
     if (values.id != null) { // edit
       var arraystudent = listTeacher
@@ -141,7 +149,7 @@ export const TeacherPage = (props: ITeacherPageProps) => {
   );
 
   const imageBodyTemplate = (rowData) => {
-    return <img src={`https://genk.mediacdn.vn/2019/11/12/photo-2-1573577922659429699603.jpg`}
+    return <img src={`http://localhost:8080/images/`+rowData.image}
                 onError={(e) => e.target.src = 'https://genk.mediacdn.vn/2019/11/12/photo-2-1573577922659429699603.jpg'}
                 alt={rowData.image} width={100} height={100} className="product-image"/>;
   }
@@ -195,7 +203,7 @@ export const TeacherPage = (props: ITeacherPageProps) => {
             <AvField name="phone" label="Số điện thoại" value={visibleModal.data ? visibleModal.data.phone : null}
                      required/>
 
-            <AvField name="file" label="Avartar" type="file" accept="image/png, image/jpeg"
+            <AvField name="image" label="Avartar" type="file" accept="image/png, image/jpeg"
                      onChange={(e) => setSelectedFile(e.target.files[0])}
                      required/>
 

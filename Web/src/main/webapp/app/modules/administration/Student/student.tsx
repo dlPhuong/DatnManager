@@ -14,6 +14,7 @@ import {Button} from 'primereact/button';
 import {InputText} from "primereact/inputtext";
 
 import {Toast} from 'primereact/toast';
+import axios from "axios";
 
 
 export type IRegisterProps = DispatchProps;
@@ -26,6 +27,8 @@ export const StudentPage = (props: IRegisterProps) => {
 
   const [globalFilter, setGlobalFilter] = useState(null); // để tìm kiếm
   const [visibleModal, setvisibleModal] = useState({vis: false, mode: "", data: null}); // ẩn hiện modal
+  const [selectedFile, setSelectedFile] = useState(null);
+  const [fileResponse, setfileResponse] = useState(null);
   const toastTL = useRef(null);
 
   const [count, setCount] = useState(0);
@@ -77,9 +80,21 @@ export const StudentPage = (props: IRegisterProps) => {
   }
 
 
-  function handleSubmit(event, errors, values) {
+  async function handleSubmit(event, errors, values) {
     values.id = visibleModal.data ? visibleModal.data.id : null;
     values.status = visibleModal.data ? visibleModal.data.status : "được phép bảo vệ";
+    if(selectedFile){
+      const formData = new FormData();
+      formData.append("file", selectedFile);
+      const result = await axios
+        .post('api/upload', formData)
+        .then((res) => {
+          values.image = res.data.filename;
+          return res;
+        })
+        .catch((err) => alert("File Upload Error"));
+      console.log(result)
+    }
     saveStudent(values);
     if (values.id != null) { // edit
       var arraystudent = liststudent
@@ -141,7 +156,9 @@ export const StudentPage = (props: IRegisterProps) => {
   );
 
   const imageBodyTemplate = (rowData) => {
-    return <img  src={`https://genk.mediacdn.vn/2019/11/12/photo-2-1573577922659429699603.jpg`} onError={(e) => e.target.src='https://genk.mediacdn.vn/2019/11/12/photo-2-1573577922659429699603.jpg'} alt={rowData.image} width={100} height={100}  className="product-image" />;
+    return <img src={`http://localhost:8080/images/`+rowData.image}
+                onError={(e) => e.target.src = 'https://genk.mediacdn.vn/2019/11/12/photo-2-1573577922659429699603.jpg'}
+                alt={rowData.image} width={100} height={100} className="product-image"/>;
   }
 
   return (
@@ -191,6 +208,9 @@ export const StudentPage = (props: IRegisterProps) => {
                      required/>
 
             <AvField name="phone" label="Số điện thoại" value={visibleModal.data ? visibleModal.data.phone : null}
+                     required/>
+            <AvField name="image" label="Avartar" type="file" accept="image/png, image/jpeg"
+                     onChange={(e) => setSelectedFile(e.target.files[0])}
                      required/>
             <div className="p-d-flex">
               <Button label={visibleModal.mode} icon="pi pi-check"/>

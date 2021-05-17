@@ -11,7 +11,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.liquibase.LiquibaseProperties;
+import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
+import org.springframework.boot.web.servlet.ServletComponentScan;
 import org.springframework.core.env.Environment;
 
 import javax.annotation.PostConstruct;
@@ -21,6 +23,7 @@ import java.util.Arrays;
 import java.util.Collection;
 
 @SpringBootApplication
+@ServletComponentScan
 @EnableConfigurationProperties({LiquibaseProperties.class, ApplicationProperties.class})
 public class WebApp {
 
@@ -50,6 +53,10 @@ public class WebApp {
             log.error("You have misconfigured your application! It should not " +
                 "run with both the 'dev' and 'cloud' profiles at the same time.");
         }
+    }
+
+    protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
+        return application.sources(WebApp.class);
     }
 
     /**

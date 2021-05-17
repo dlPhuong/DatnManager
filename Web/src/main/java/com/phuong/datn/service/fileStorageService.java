@@ -41,7 +41,7 @@ public class fileStorageService {
             fileName = timeMilli2 + "-" + fileName;
             File file = new File(getFolderUpload(), fileName);
             multipartFile.transferTo(file);
-            return System.getProperty("user.home") + "/Uploads/" + fileName;
+            return fileName;
         } catch (Exception e) {
             e.printStackTrace();
         }

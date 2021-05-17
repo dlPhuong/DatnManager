@@ -64,7 +64,7 @@ public class StudentController {
     @RequestMapping(value = "/download/{fileName}", method = RequestMethod.GET)
     public void dowloadTemplate(HttpServletResponse response, @PathVariable(name = "fileName") String filename) throws IOException {
         try {
-            File file = ResourceUtils.getFile("classpath:templates/" + filename);
+            File file = ResourceUtils.getFile("classpath:templates/" + filename+".xlsx");
             byte[] data = Files.readAllBytes(file.toPath());
             // Thiết lập thông tin trả về
             response.setContentType("application/octet-stream");
