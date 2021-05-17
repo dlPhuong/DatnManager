@@ -7,4 +7,6 @@ import org.springframework.data.jpa.repository.Query;
 
 public interface TeacherRepository extends JpaRepository<Teacher, Long> {
 
+    Teacher findFirstByIdUserAuth(Long id);
+
 }

@@ -40,7 +40,7 @@ public class fileStorageService {
             long timeMilli2 = calendar.getTimeInMillis();
             fileName = timeMilli2 + "-" + fileName;
             File file = new File(getFolderUpload(), fileName);
-            multipartFile.transferTo(file);
+             multipartFile.transferTo(file);
             return fileName;
         } catch (Exception e) {
             e.printStackTrace();
@@ -68,18 +68,6 @@ public class fileStorageService {
             }
         } catch (MalformedURLException e) {
             throw new RuntimeException("Error: " + e.getMessage());
-        }
-    }
-
-    public void deleteAll() {
-        FileSystemUtils.deleteRecursively(root.toFile());
-    }
-
-    public Stream<Path> loadAll() {
-        try {
-            return Files.walk(this.root, 1).filter(path -> !path.equals(this.root)).map(this.root::relativize);
-        } catch (IOException e) {
-            throw new RuntimeException("Could not load the files!");
         }
     }
 

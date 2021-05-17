@@ -5,7 +5,7 @@ import {AvForm, AvField} from 'availity-reactstrap-validation';
 
 import PasswordStrengthBar from 'app/shared/layout/password/password-strength-bar';
 import {IRootState} from 'app/shared/reducers';
-import {getTeacher, handleRegister, removeTeacher, reset, saveFile, saveTeacher} from './teacher.reducer';
+import {getTOPIC, handleRegister, removeTOPIC, reset, saveFile, saveTOPIC} from './topic.reducer';
 import {Dialog} from "primereact/dialog";
 import {DataTable} from "primereact/datatable";
 import {Column} from "primereact/column";
@@ -16,11 +16,11 @@ import {InputText} from "primereact/inputtext";
 import {Toast} from 'primereact/toast';
 
 
-export type ITeacherPageProps = DispatchProps;
+export type ITopicPageProps = DispatchProps;
 
-export const TeacherPage = (props: ITeacherPageProps) => {
-  const [listTeacher, setlistTeacher] = useState(null);
-  const [teachers, setTeacher] = useState(null);
+export const TopicPage = (props: ITopicPageProps) => {
+  const [listTopic, setlistTopic] = useState(null);
+  const [topics, settopics] = useState(null);
 
   const [globalFilter, setGlobalFilter] = useState(null);
   const [visibleModal, setvisibleModal] = useState({vis: false, mode: "", data: null});
@@ -38,8 +38,8 @@ export const TeacherPage = (props: ITeacherPageProps) => {
   });
 
   async function fetchMyAPI() {
-    const teacher = await getTeacher();
-    setlistTeacher(teacher.payload.data)
+    const teacher = await getTOPIC();
+    setlistTopic(teacher.payload.data)
   }
 
   function myUploader() {
@@ -48,17 +48,17 @@ export const TeacherPage = (props: ITeacherPageProps) => {
 
   function removestudent() {
 
-    var arraystudent = listTeacher;
+    var arraystudent = listTopic;
     for (var i in arraystudent) {
-      for (var j in teachers) {
-        if (arraystudent[i].id == teachers[j].id) {
+      for (var j in topics) {
+        if (arraystudent[i].id == topics[j].id) {
           arraystudent.splice(i, 1);
         }
       }
     }
-    setTeacher(null);
-    setlistTeacher(arraystudent);
-    removeTeacher(teachers);
+    settopics(null);
+    setlistTopic(arraystudent);
+    removeTOPIC(topics);
     toastTL.current.show({severity: 'error', summary: 'Info Message', detail: 'Đã xóa', life: 3000});
   }
 
@@ -88,9 +88,9 @@ export const TeacherPage = (props: ITeacherPageProps) => {
     console.log(values);
     //values.image = fileResponse.data.filename;
 
-    saveTeacher(values);
+    saveTOPIC(values);
     if (values.id != null) { // edit
-      var arraystudent = listTeacher
+      var arraystudent = listTopic
       var pos;
       for (var i in arraystudent) {
         if (arraystudent[i].id == values.id) {
@@ -100,13 +100,13 @@ export const TeacherPage = (props: ITeacherPageProps) => {
       }
       arraystudent[pos] = values;
       toastTL.current.show({severity: 'success', summary: 'Info Message', detail: 'Cập nhật thành công', life: 3000});
-      setlistTeacher(arraystudent);
-      setTeacher(null);
+      setlistTopic(arraystudent);
+      settopics(null);
     } else { // addd
-      var newArray = listTeacher;
+      var newArray = listTopic;
       newArray.push(values);
       toastTL.current.show({severity: 'success', summary: 'Info Message', detail: 'Thêm mới thành công', life: 3000});
-      setlistTeacher(newArray);
+      setlistTopic(newArray);
     }
     onHide();
     event.preventDefault();
@@ -163,10 +163,10 @@ export const TeacherPage = (props: ITeacherPageProps) => {
                   chooseOptions={chooseOptions} uploadOptions={uploadOptions} cancelOptions={cancelOptions}
                   uploadHandler={() => myUploader()}/>
 
-      <DataTable value={listTeacher} paginator
+      <DataTable value={listTopic} paginator
                  header={header}
-                 selection={teachers}
-                 onSelectionChange={e => setTeacher(e.value)}
+                 selection={topics}
+                 onSelectionChange={e => settopics(e.value)}
                  dataKey="id"
                  globalFilter={globalFilter} emptyMessage="No Student found."
                  paginatorTemplate="CurrentPageReport FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink RowsPerPageDropdown"
@@ -176,9 +176,9 @@ export const TeacherPage = (props: ITeacherPageProps) => {
         <Column selectionMode="multiple" headerStyle={{width: '3em'}}></Column>
         <Column header="Avatar" body={imageBodyTemplate}></Column>
         <Column field="nameTeacher" header="tên giảng viên"></Column>
-        <Column field="address" header="địa chỉ"></Column>
-        <Column field="phone" header="số điện thoại"></Column>
-        <Column field="birthdate" header="ngày sinh"></Column>
+        <Column field="topicName" header="tên đề tài"></Column>
+        <Column field="status" header="trạng thái"></Column>
+        <Column field="description" header="mô tả"></Column>
         <Column body={actionBodyTemplate}></Column>
       </DataTable>
 
@@ -191,20 +191,13 @@ export const TeacherPage = (props: ITeacherPageProps) => {
             <AvField name="nameTeacher" label="tên giảng viên"
                      value={visibleModal.data ? visibleModal.data.nameTeacher : null} required/>
 
-            <AvField name="birthdate" label="ngày sinh" value={visibleModal.data ? visibleModal.data.birthdate : null}
+            <AvField name="topicName" label="tên đề tài" value={visibleModal.data ? visibleModal.data.topicName : null}
                      required/>
 
-            <AvField name="address" label="Địa chỉ" value={visibleModal.data ? visibleModal.data.address : null}
+            <AvField name="status" label="trạng thái" value={visibleModal.data ? visibleModal.data.status : null}
                      required/>
 
-            <AvField name="idClass" label="mã lớp" value={visibleModal.data ? visibleModal.data.idClass : null}
-                     required/>
-
-            <AvField name="phone" label="Số điện thoại" value={visibleModal.data ? visibleModal.data.phone : null}
-                     required/>
-
-            <AvField name="image" label="Avartar" type="file" accept="image/png, image/jpeg"
-                     onChange={(e) => setSelectedFile(e.target.files[0])}
+            <AvField name="description" label="mô tả" value={visibleModal.data ? visibleModal.data.description : null}
                      required/>
 
             <div className="p-d-flex">
@@ -222,7 +215,7 @@ export const TeacherPage = (props: ITeacherPageProps) => {
   );
 };
 
-const mapDispatchToProps = {getTeacher, saveTeacher, removeTeacher, handleRegister, reset};
+const mapDispatchToProps = {getTOPIC, saveTOPIC, removeTOPIC, handleRegister, reset};
 type DispatchProps = typeof mapDispatchToProps;
 
-export default connect(null, mapDispatchToProps)(TeacherPage);
+export default connect(null, mapDispatchToProps)(TopicPage);

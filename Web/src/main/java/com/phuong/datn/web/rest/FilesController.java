@@ -49,19 +49,6 @@ public class FilesController {
         return null;
     }
 
-    @GetMapping("/files")
-    public ResponseEntity<List<File>> getListFiles() {
-        List<File> fileInfos = storageService.loadAll().map(path -> {
-            String filename = path.getFileName().toString();
-            String url = MvcUriComponentsBuilder
-                .fromMethodName(FilesController.class, "getFile", path.getFileName().toString()).build().toString();
-
-            return new File(url, filename);
-        }).collect(Collectors.toList());
-
-        return ResponseEntity.status(HttpStatus.OK).body(fileInfos);
-    }
-
     @ResponseBody
     @RequestMapping(value = "/Image/{filename}", method = RequestMethod.GET, consumes = MediaType.ALL_VALUE, produces = MediaType.IMAGE_JPEG_VALUE)
     public ResponseEntity<byte[]> getImage(@PathVariable(name = "filename") String filename) throws IOException {

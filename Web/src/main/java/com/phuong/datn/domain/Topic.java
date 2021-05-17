@@ -28,6 +28,28 @@ public class Topic extends AbstractAuditingEntity implements Serializable {
     @Column(name = "idStudent")
     private String idStudent;
 
+    @Column(name = "nameTeacher")
+    private String nameTeacher;
+
+    @Column(name = "nameStudent")
+    private String nameStudent;
+
+    public String getNameTeacher() {
+        return nameTeacher;
+    }
+
+    public void setNameTeacher(String nameTeacher) {
+        this.nameTeacher = nameTeacher;
+    }
+
+    public String getNameStudent() {
+        return nameStudent;
+    }
+
+    public void setNameStudent(String nameStudent) {
+        this.nameStudent = nameStudent;
+    }
+
     public String getIdTeacher() {
         return idTeacher;
     }

@@ -83,7 +83,7 @@ export const StudentPage = (props: IRegisterProps) => {
   async function handleSubmit(event, errors, values) {
     values.id = visibleModal.data ? visibleModal.data.id : null;
     values.status = visibleModal.data ? visibleModal.data.status : "được phép bảo vệ";
-    if(selectedFile){
+    if (selectedFile) {
       const formData = new FormData();
       formData.append("file", selectedFile);
       const result = await axios
@@ -156,14 +156,13 @@ export const StudentPage = (props: IRegisterProps) => {
   );
 
   const imageBodyTemplate = (rowData) => {
-    return <img src={`http://localhost:8080/images/`+rowData.image}
+    return <img src={`http://localhost:8080/images/` + rowData.image} style={{borderRadius: "50%"}}
                 onError={(e) => e.target.src = 'https://genk.mediacdn.vn/2019/11/12/photo-2-1573577922659429699603.jpg'}
                 alt={rowData.image} width={100} height={100} className="product-image"/>;
   }
 
   return (
     <div>
-
       <a href={'http://localhost:8080/api/download/sinhvien.xlsx'}>tải về file import mẫu</a>
 
       <FileUpload name="file" accept={".xls,.xlsx"} url="http://localhost:8080/api/uploadExcelFile"

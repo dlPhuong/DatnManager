@@ -1,10 +1,17 @@
 package com.phuong.datn.web.rest;
 
 import com.phuong.datn.config.Constants;
+import com.phuong.datn.domain.Student;
+import com.phuong.datn.domain.Teacher;
 import com.phuong.datn.domain.User;
+import com.phuong.datn.repository.StudentRepository;
+import com.phuong.datn.repository.TeacherRepository;
+import com.phuong.datn.repository.TopicRepository;
 import com.phuong.datn.repository.UserRepository;
 import com.phuong.datn.security.AuthoritiesConstants;
 import com.phuong.datn.service.MailService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import java.util.Collections;
 import com.phuong.datn.service.UserService;
@@ -74,6 +81,12 @@ public class UserResource {
 
     private final MailService mailService;
 
+    @Autowired
+    StudentRepository studentRepository;
+
+    @Autowired
+    TeacherRepository teacherRepository;
+
     public UserResource(UserService userService, UserRepository userRepository, MailService mailService) {
         this.userService = userService;
         this.userRepository = userRepository;
@@ -135,25 +148,51 @@ public class UserResource {
         }
         Optional<UserDTO> updatedUser = userService.updateUser(userDTO);
 
+        // check kiểm tra xem có trong csdl chưa
+        if(teacherRepository.findFirstByIdUserAuth(userDTO.getId()) == null && studentRepository.findFirstByIdUserAuth(userDTO.getId()) == null ){
+            Iterator<String> iterator = userDTO.getAuthorities().iterator();
+            while (iterator.hasNext()) {
+                String roles = iterator.next();
+                if(roles.equalsIgnoreCase(AuthoritiesConstants.TEACHER)){
+                    // save user teach
+                    Teacher teacher = new Teacher(userDTO);
+                    teacherRepository.save(teacher);
+                }
+                if(roles.equalsIgnoreCase(AuthoritiesConstants.USER)){
+                    // save info student
+                    Student student = new Student(userDTO);
+                    studentRepository.save(student);
+                }
+            }
+        }
+
+
         return ResponseUtil.wrapOrNotFound(updatedUser,
             HeaderUtil.createAlert(applicationName, "A user is updated with identifier " + userDTO.getLogin(), userDTO.getLogin()));
     }
 
-    /**
-     * {@code GET /users} : get all users.
-     *
-     * @param pageable the pagination information.
-     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body all users.
-     */
+
     @GetMapping("/users")
-    public ResponseEntity<List<UserDTO>> getAllUsers(Pageable pageable) {
+    public ResponseEntity<List<UserDTO>> getAllUsers(@RequestParam(name = "page", required = false, defaultValue = "0") Integer page,
+                                                     @RequestParam(name = "size", required = false, defaultValue = "5") Integer size,
+                                                     @RequestParam(name = "sort", required = false, defaultValue = "asc") String sort) {
+
+        Sort sortable = null;
+        if (sort.equals("id,asc")) {
+            sortable = Sort.by("id").ascending();
+        }
+        if (sort.equals("desc")) {
+            sortable = Sort.by("id").descending();
+        }
+
+        Pageable pageable = PageRequest.of(page, size, sortable);
         if (!onlyContainsAllowedProperties(pageable)) {
             return ResponseEntity.badRequest().build();
         }
 
-        final Page<UserDTO> page = userService.getAllManagedUsers(pageable);
-        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
-        return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
+        final Page<UserDTO> page1 = userService.getAllManagedUsers(pageable);
+        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page1);
+        return new ResponseEntity<>(page1.getContent(), headers, HttpStatus.OK);
     }
 
     private boolean onlyContainsAllowedProperties(Pageable pageable) {

@@ -1,5 +1,7 @@
 package com.phuong.datn.domain;
 
+import com.phuong.datn.service.dto.UserDTO;
+
 import javax.persistence.*;
 import java.io.Serializable;
 
@@ -52,6 +54,26 @@ public class Student extends AbstractAuditingEntity implements Serializable {
 
     @Column(name = "note")
     private String note;
+
+    @Column(name = "iduserauth")
+    private Long idUserAuth;
+
+    public Student() {
+    }
+
+    public Student(UserDTO dto) {
+        this.idUserAuth = dto.getId();
+        this.name = dto.getLastName();
+        this.image = dto.getImageUrl();
+    }
+
+    public Long getIdUserAuth() {
+        return idUserAuth;
+    }
+
+    public void setIdUserAuth(Long idUserAuth) {
+        this.idUserAuth = idUserAuth;
+    }
 
     public Long getId() {
         return id;

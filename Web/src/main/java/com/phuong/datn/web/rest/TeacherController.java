@@ -6,21 +6,23 @@ import com.phuong.datn.domain.Report;
 import com.phuong.datn.domain.Response.BaseResponse;
 import com.phuong.datn.domain.Student;
 import com.phuong.datn.domain.Teacher;
+import com.phuong.datn.domain.User;
 import com.phuong.datn.repository.FileRepository;
 import com.phuong.datn.repository.ReportRepository;
 import com.phuong.datn.repository.TeacherRepository;
 import com.phuong.datn.repository.TopicRepository;
 import com.phuong.datn.service.TeacherService;
+import com.phuong.datn.service.UserService;
+import com.phuong.datn.service.dto.UserDTO;
+import jdk.nashorn.internal.runtime.options.Option;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import springfox.documentation.swagger2.mappers.ModelMapper;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @RestController
 @RequestMapping("/api")
@@ -34,12 +36,10 @@ public class TeacherController {
     @Autowired
     TeacherService teacherService;
 
-    @GetMapping("/getAllTopic")
-    public BaseResponse getAllReport() {
+    @Autowired
+    UserService userService;
 
-        BaseResponse baseResponse = new BaseResponse(Commons.SUCCESS, Commons.SUCCESS, topicRepository.findAll());
-        return baseResponse;
-    }
+
 
     @GetMapping("/getAllTeacher")
     public List<Teacher> getAllTeacher() {

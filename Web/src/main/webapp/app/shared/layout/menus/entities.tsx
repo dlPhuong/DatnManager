@@ -16,6 +16,11 @@ const Managerment = (
     <MenuItem icon="user" to="/teacher">
       Giảng viên
     </MenuItem>
+
+    <MenuItem icon="album" to="/topic">
+      Đề tài
+    </MenuItem>
+
   </>
 );
 
