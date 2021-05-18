@@ -3,8 +3,6 @@ import React, {useState, useEffect, useRef} from 'react';
 import {connect} from 'react-redux';
 import {AvForm, AvField} from 'availity-reactstrap-validation';
 
-import PasswordStrengthBar from 'app/shared/layout/password/password-strength-bar';
-import {IRootState} from 'app/shared/reducers';
 import {getStudent, handleRegister, removeStudent, reset, saveStudent} from './student.reducer';
 import {Dialog} from "primereact/dialog";
 import {DataTable} from "primereact/datatable";
@@ -37,18 +35,13 @@ export const StudentPage = (props: IRegisterProps) => {
     fetchMyAPI();
   }, []);
 
-  useEffect(() => {
-    console.log()
-  });
 
   async function fetchMyAPI() {
-    console.log("fetchMyAPI");
     const student = await getStudent();
     setlistStudent(student.payload.data)
   }
 
   function myUploader() {
-    console.log("hmmmm");
   }
 
   function removestudent() {
@@ -62,8 +55,7 @@ export const StudentPage = (props: IRegisterProps) => {
       }
     }
 
-    console.log('student ', students);
-    console.log('arraystudent', arraystudent);
+
     setStudent(null);
     setlistStudent(arraystudent);
     removeStudent(students);
@@ -75,7 +67,6 @@ export const StudentPage = (props: IRegisterProps) => {
   }
 
   function editProduct(student) {
-    console.log("dulieu", student);
     setvisibleModal({vis: true, mode: "Cập nhật", data: student});
   }
 
@@ -93,7 +84,6 @@ export const StudentPage = (props: IRegisterProps) => {
           return res;
         })
         .catch((err) => alert("File Upload Error"));
-      console.log(result)
     }
     saveStudent(values);
     if (values.id != null) { // edit

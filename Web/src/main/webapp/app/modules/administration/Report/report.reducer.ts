@@ -5,10 +5,10 @@ import {REQUEST, SUCCESS, FAILURE} from 'app/shared/reducers/action-type.util';
 export const ACTION_TYPES = {
   CREATE_ACCOUNT: 'register/CREATE_ACCOUNT',
   RESET: 'register/RESET',
-  GET_REPORT: 'student/GET_TOPIC',
-  SAVE_REPORT: 'student/SAVE_TOPIC',
+  GET_REPORT: 'student/GET_REPORT',
+  SAVE_REPORT: 'student/SAVE_REPORT',
   SAVE_FILE: 'student/SAVE_FILE',
-  DELETE_REPORT: 'student/DELETE_TOPIC',
+  DELETE_REPORT: 'student/DELETE_REPORT',
 };
 
 const initialState = {
@@ -26,18 +26,18 @@ export type StudentState = Readonly<typeof initialState>;
 export default (state: StudentState = initialState, action): StudentState => {
   switch (action.type) {
     case REQUEST(ACTION_TYPES.CREATE_ACCOUNT):
-    case REQUEST(ACTION_TYPES.GET_TOPIC):
-    case REQUEST(ACTION_TYPES.SAVE_TOPIC):
-    case REQUEST(ACTION_TYPES.DELETE_TOPIC):
+    case REQUEST(ACTION_TYPES.GET_REPORT):
+    case REQUEST(ACTION_TYPES.SAVE_REPORT):
+    case REQUEST(ACTION_TYPES.DELETE_REPORT):
     case REQUEST(ACTION_TYPES.SAVE_FILE):
       return {
         ...state,
         loading: true,
       };
     case FAILURE(ACTION_TYPES.CREATE_ACCOUNT):
-    case FAILURE(ACTION_TYPES.GET_TOPIC):
-    case FAILURE(ACTION_TYPES.SAVE_TOPIC):
-    case FAILURE(ACTION_TYPES.DELETE_TOPIC):
+    case FAILURE(ACTION_TYPES.GET_REPORT):
+    case FAILURE(ACTION_TYPES.SAVE_REPORT):
+    case FAILURE(ACTION_TYPES.DELETE_REPORT):
       return {
         ...initialState,
         registrationFailure: true,
@@ -48,13 +48,13 @@ export default (state: StudentState = initialState, action): StudentState => {
         ...initialState,
         registrationSuccess: true,
       };
-    case SUCCESS(ACTION_TYPES.GET_TOPIC):
+    case SUCCESS(ACTION_TYPES.GET_REPORT):
       return {
         ...initialState,
         listTeacher: action.payload.data,
       }
 
-    case SUCCESS(ACTION_TYPES.GET_TOPIC):
+    case SUCCESS(ACTION_TYPES.GET_REPORT):
       return {
         ...initialState,
         listTeacher: action.payload.data,
@@ -66,7 +66,7 @@ export default (state: StudentState = initialState, action): StudentState => {
         listFile: action.payload.data,
       }
 
-    case SUCCESS(ACTION_TYPES.DELETE_TOPIC):
+    case SUCCESS(ACTION_TYPES.DELETE_REPORT):
       return {
         ...initialState,
         listTeacher: action.payload.data,
@@ -91,13 +91,17 @@ export const handleRegister = (login, email, password, langKey = 'en') => ({
 });
 
 // load TOPIC
-export const getTOPIC = async () => ({
-  type: ACTION_TYPES.GET_TOPIC,
-  payload: await axios.get('api/getAllTopic'),
+export const getTOPIC = async (idStudent) => ({
+  type: ACTION_TYPES.GET_REPORT,
+  payload: await axios.get(`api/getAllReport/`,{
+    params: {
+      idStudent: idStudent,
+    }
+  })
 });
 
 export const saveTOPIC = async (values) => ({
-  type: ACTION_TYPES.SAVE_TOPIC,
+  type: ACTION_TYPES.SAVE_REPORT,
   payload: await axios.post('api/saveTopic', values),
 });
 
@@ -111,7 +115,7 @@ export const saveFile = async (file) => ({
 });
 
 export const removeTOPIC= async (values) => ({
-  type: ACTION_TYPES.DELETE_TOPIC,
+  type: ACTION_TYPES.DELETE_REPORT,
   payload: await axios.post('api/deleteTopic', values),
 });
 

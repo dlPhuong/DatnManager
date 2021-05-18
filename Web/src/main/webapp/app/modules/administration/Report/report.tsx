@@ -5,7 +5,7 @@ import {AvForm, AvField} from 'availity-reactstrap-validation';
 
 import PasswordStrengthBar from 'app/shared/layout/password/password-strength-bar';
 import {IRootState} from 'app/shared/reducers';
-import {getLOP, removeLOP, reset, saveLOP} from './lop.reducer';
+import {getTOPIC, handleRegister, removeTOPIC, reset, saveFile, saveTOPIC} from './report.reducer';
 import {Dialog} from "primereact/dialog";
 import {DataTable} from "primereact/datatable";
 import {Column} from "primereact/column";
@@ -13,17 +13,22 @@ import {FileUpload} from "primereact/fileupload";
 import {Button} from 'primereact/button';
 import {InputText} from "primereact/inputtext";
 import {Toast} from 'primereact/toast';
-import { Dropdown } from 'primereact/dropdown';
+import {Dropdown} from 'primereact/dropdown';
+import {Link} from "react-router-dom";
 
 
-export type ILopPageProps = DispatchProps;
+export type ITopicPageProps = DispatchProps;
 
-export const LopPage = (props: ILopPageProps) => {
-  const [listLop, setlistLop] = useState(null);
-  const [lop, setLop] = useState(null);
+export const ReportPage = (props: ITopicPageProps) => {
+  const [listReport, srtlistReport] = useState(null);
+
+  const [topics, settopics] = useState(null);
 
   const [globalFilter, setGlobalFilter] = useState(null);
   const [visibleModal, setvisibleModal] = useState({vis: false, mode: "", data: null});
+  const [selectedFile, setSelectedFile] = useState(null);
+
+  const [fileResponse, setfileResponse] = useState(null);
   const toastTL = useRef(null);
 
   useEffect(() => {
@@ -33,24 +38,24 @@ export const LopPage = (props: ILopPageProps) => {
 
 
   async function fetchMyAPI() {
-    const teacher = await getLOP();
-    setlistLop(teacher.payload.data)
+    const teacher = await getTOPIC("3");
+    srtlistReport(teacher.payload.data)
   }
 
 
 
-  function removeLop() {
-    var arraystudent = listLop;
+  function removestudent() {
+    var arraystudent = listReport;
     for (var i in arraystudent) {
-      for (var j in lop) {
-        if (arraystudent[i].id == lop[j].id) {
+      for (var j in topics) {
+        if (arraystudent[i].id == topics[j].id) {
           arraystudent.splice(i, 1);
         }
       }
     }
-    setLop(null);
-    setlistLop(arraystudent);
-    removeLOP(lop);
+    settopics(null);
+    srtlistReport(arraystudent);
+    removeTOPIC(topics);
     toastTL.current.show({severity: 'error', summary: 'Info Message', detail: 'Đã xóa', life: 3000});
   }
 
@@ -58,16 +63,16 @@ export const LopPage = (props: ILopPageProps) => {
     setvisibleModal({vis: false, mode: "", data: null})
   }
 
-   async function UploadImage() {
+  async function UploadImage() {
 
   }
 
 
-   async function handleSubmit(event, errors, values) {
-     values.id = visibleModal.data ? visibleModal.data.id : null;
-    saveLOP(values);
+  async function handleSubmit(event, errors, values) {
+    values.id = visibleModal.data ? visibleModal.data.id : null;
+    saveTOPIC(values);
     if (values.id != null) { // edit
-      var arraystudent = listLop
+      var arraystudent = listReport
       var pos;
       for (var i in arraystudent) {
         if (arraystudent[i].id == values.id) {
@@ -77,13 +82,13 @@ export const LopPage = (props: ILopPageProps) => {
       }
       arraystudent[pos] = values;
       toastTL.current.show({severity: 'success', summary: 'Info Message', detail: 'Cập nhật thành công', life: 3000});
-      setlistLop(arraystudent);
-      setLop(null);
+      srtlistReport(arraystudent);
+      settopics(null);
     } else { // addd
-      var newArray = listLop;
+      var newArray = listReport;
       newArray.push(values);
       toastTL.current.show({severity: 'success', summary: 'Info Message', detail: 'Thêm mới thành công', life: 3000});
-      setlistLop(newArray);
+      srtlistReport(newArray);
     }
     onHide();
     event.preventDefault();
@@ -111,11 +116,19 @@ export const LopPage = (props: ILopPageProps) => {
     );
   }
 
+  function bodyfile(rowData){
+    return(
+    <div>
+      <a href={'http://localhost:8080/api/dowload/?filename='+rowData.filename}>{rowData.filename}</a>
+    </div>
+    );
+  }
+
   const header = (
     <div className="table-header">
       <Button label="Thêm" icon="pi pi-plus"
               onClick={() => setvisibleModal({vis: true, mode: "Thêm", data: null})}/>
-      <Button label="Xóa" onClick={() => removeLop()} icon="pi pi-times"
+      <Button label="Xóa" onClick={() => removestudent()} icon="pi pi-times"
               className="p-button-danger"/>
       <span className="p-input-icon-left">
         <i className="pi pi-search"/>
@@ -127,10 +140,17 @@ export const LopPage = (props: ILopPageProps) => {
 
   return (
     <div>
-      <DataTable value={listLop} paginator
+
+      {/*<a href={'http://localhost:8080/api/download/topic.xlsx'}>tải về file import mẫu</a>*/}
+
+      {/*<FileUpload name="file" accept={".xls,.xlsx"} url="http://localhost:8080/api/uploadExcelFileTopic"*/}
+      {/*            chooseOptions={chooseOptions} uploadOptions={uploadOptions} cancelOptions={cancelOptions}*/}
+      {/*            uploadHandler={() => myUploader()}/>*/}
+
+      <DataTable value={listReport} paginator
                  header={header}
-                 selection={lop}
-                 onSelectionChange={e => setLop(e.value)}
+                 selection={topics}
+                 onSelectionChange={e => settopics(e.value)}
                  dataKey="id"
                  globalFilter={globalFilter} emptyMessage="No Student found."
                  paginatorTemplate="CurrentPageReport FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink RowsPerPageDropdown"
@@ -138,9 +158,13 @@ export const LopPage = (props: ILopPageProps) => {
                  rowsPerPageOptions={[10, 20, 50]}
                  paginatorLeft={paginatorLeft} paginatorRight={paginatorRight}>
         <Column selectionMode="multiple" headerStyle={{width: '3em'}}></Column>
-        <Column field="id" header="id"></Column>
-        <Column field="idClass" header="mã lớp"></Column>
-        <Column field="nameClass" header="tên lớp"></Column>
+        <Column field="namestudent" header="tên sinh viên"></Column>
+        <Column field="nameReport" header="tên báo cáo"></Column>
+        <Column field="mission" header="nhiệm vụ"></Column>
+        <Column field="status" header="trạng thái"></Column>
+        <Column field="process" header="tiến độ"></Column>
+        <Column field="deadline" header="thời hạn"></Column>
+        <Column  body={bodyfile} header="file"></Column>
         <Column body={actionBodyTemplate}></Column>
       </DataTable>
 
@@ -151,11 +175,15 @@ export const LopPage = (props: ILopPageProps) => {
 
           <AvForm onSubmit={handleSubmit}>
 
-            <AvField name="idClass" label="mã lớp" value={visibleModal.data ? visibleModal.data.idClass : null}
+            <AvField name="topicName" label="tên đề tài" value={visibleModal.data ? visibleModal.data.topicName : null}
                      required/>
 
-            <AvField name="nameClass" label="tên lớp" value={visibleModal.data ? visibleModal.data.nameClass : null}
+            <AvField name="status" label="trạng thái" value={visibleModal.data ? visibleModal.data.status : null}
                      required/>
+
+            <AvField name="description" label="mô tả" value={visibleModal.data ? visibleModal.data.description : null}
+                     required/>
+
             <div className="p-d-flex">
               <Button label={visibleModal.mode} icon="pi pi-check"/>
               <Button className="p-mr-2 p-button-danger" label="Cancel" icon="pi pi-times" onClick={onHide}/>
@@ -171,7 +199,7 @@ export const LopPage = (props: ILopPageProps) => {
   );
 };
 
-const mapDispatchToProps = {getLOP, saveLOP, removeLOP, reset};
+const mapDispatchToProps = {getTOPIC, saveTOPIC, removeTOPIC, handleRegister, reset};
 type DispatchProps = typeof mapDispatchToProps;
 
-export default connect(null, mapDispatchToProps)(LopPage);
+export default connect(null, mapDispatchToProps)(ReportPage);

@@ -18,6 +18,7 @@ import student, {StudentPage} from "app/modules/administration/Student/student";
 import {TeacherPage} from "app/modules/administration/Teacher/teacher";
 import {TopicPage} from "app/modules/administration/Topic/topic";
 import {LopPage} from "app/modules/administration/Lop/lop";
+import {ReportPage} from "app/modules/administration/Report/report";
 
 const Account = Loadable({
   loader: () => import(/* webpackChunkName: "account" */ 'app/modules/account'),
@@ -37,6 +38,7 @@ const Routes = () => (
       <PrivateRoute path="/teacher" component={TeacherPage} hasAnyAuthorities={[AUTHORITIES.ADMIN]} />
       <PrivateRoute path="/topic" component={TopicPage} hasAnyAuthorities={[AUTHORITIES.ADMIN]} />
       <PrivateRoute path="/Class" component={LopPage} hasAnyAuthorities={[AUTHORITIES.ADMIN]} />
+      <PrivateRoute path="/report" component={ReportPage} hasAnyAuthorities={[AUTHORITIES.ADMIN]} />
 
       <ErrorBoundaryRoute path="/login" component={Login} />
       <ErrorBoundaryRoute path="/logout" component={Logout} />

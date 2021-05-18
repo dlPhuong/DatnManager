@@ -33,9 +33,7 @@ export const TeacherPage = (props: ITeacherPageProps) => {
     fetchMyAPI();
   }, []);
 
-  useEffect(() => {
-    console.log()
-  });
+
 
   async function fetchMyAPI() {
     const teacher = await getTeacher();
@@ -43,7 +41,6 @@ export const TeacherPage = (props: ITeacherPageProps) => {
   }
 
   function myUploader() {
-    console.log("upload")
   }
 
   function removestudent() {
@@ -83,9 +80,7 @@ export const TeacherPage = (props: ITeacherPageProps) => {
           return res;
         })
         .catch((err) => alert("File Upload Error"));
-     console.log(result)
     }
-    console.log(values);
     //values.image = fileResponse.data.filename;
 
     saveTeacher(values);

@@ -20,6 +20,9 @@ public class File extends AbstractAuditingEntity implements Serializable {
     @Column(name = "description")
     private String description;
 
+    public File() {
+    }
+
     public File(String filename, String description) {
         this.filename = filename;
         this.description = description;

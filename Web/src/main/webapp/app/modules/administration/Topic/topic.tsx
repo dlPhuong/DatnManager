@@ -35,7 +35,7 @@ export const TopicPage = (props: ITopicPageProps) => {
   }, []);
 
   useEffect(() => {
-    console.log()
+
   });
 
   async function fetchMyAPI() {
@@ -44,7 +44,6 @@ export const TopicPage = (props: ITopicPageProps) => {
   }
 
   function myUploader() {
-    console.log("upload")
   }
 
   function removestudent() {
@@ -115,7 +114,7 @@ export const TopicPage = (props: ITopicPageProps) => {
       <React.Fragment>
         <Button icon="pi pi-pencil" className="p-button-rounded p-button-success p-mr-2"
                 onClick={() => setvisibleModal({vis: true, mode: "Cập nhật", data: rowData})}/>
-        <Link to="/dashboard">
+        <Link to="/report">
           <Button icon="pi pi-calendar" className="p-button-rounded p-button-success p-mr-2"/>
         </Link>
 
