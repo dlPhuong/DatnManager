@@ -13,7 +13,8 @@ import {FileUpload} from "primereact/fileupload";
 import {Button} from 'primereact/button';
 import {InputText} from "primereact/inputtext";
 import {Toast} from 'primereact/toast';
-import { Dropdown } from 'primereact/dropdown';
+import {Dropdown} from 'primereact/dropdown';
+import {Link} from "react-router-dom";
 
 
 export type ITopicPageProps = DispatchProps;
@@ -65,12 +66,12 @@ export const TopicPage = (props: ITopicPageProps) => {
     setvisibleModal({vis: false, mode: "", data: null})
   }
 
-   async function UploadImage() {
+  async function UploadImage() {
 
   }
 
 
-   async function handleSubmit(event, errors, values) {
+  async function handleSubmit(event, errors, values) {
     values.id = visibleModal.data ? visibleModal.data.id : null;
     saveTOPIC(values);
     if (values.id != null) { // edit
@@ -114,6 +115,11 @@ export const TopicPage = (props: ITopicPageProps) => {
       <React.Fragment>
         <Button icon="pi pi-pencil" className="p-button-rounded p-button-success p-mr-2"
                 onClick={() => setvisibleModal({vis: true, mode: "Cập nhật", data: rowData})}/>
+        <Link to="/dashboard">
+          <Button icon="pi pi-calendar" className="p-button-rounded p-button-success p-mr-2"/>
+        </Link>
+
+
       </React.Fragment>
     );
   }
@@ -155,6 +161,7 @@ export const TopicPage = (props: ITopicPageProps) => {
         <Column field="nameTeacher" header="tên giảng viên"></Column>
         <Column field="topicName" header="tên đề tài"></Column>
         <Column field="status" header="trạng thái"></Column>
+        <Column field="nameStudent" header="họ tên sinh viên"></Column>
         <Column field="description" header="mô tả"></Column>
         <Column body={actionBodyTemplate}></Column>
       </DataTable>
