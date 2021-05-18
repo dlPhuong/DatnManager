@@ -17,8 +17,12 @@ const Managerment = (
       Giảng viên
     </MenuItem>
 
-    <MenuItem icon="album" to="/topic">
+    <MenuItem icon="user" to="/topic">
       Đề tài
+    </MenuItem>
+
+    <MenuItem icon="user" to="/class">
+      Lớp
     </MenuItem>
 
   </>

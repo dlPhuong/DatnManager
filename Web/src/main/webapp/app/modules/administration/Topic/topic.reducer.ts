@@ -6,10 +6,10 @@ import {log} from "react-jhipster";
 export const ACTION_TYPES = {
   CREATE_ACCOUNT: 'register/CREATE_ACCOUNT',
   RESET: 'register/RESET',
-  GET_TOPIC: 'student/GET_TOPIC',
-  SAVE_TOPIC: 'student/SAVE_TOPIC',
+  GET_LOP: 'student/GET_TOPIC',
+  SAVE_LOP: 'student/SAVE_TOPIC',
   SAVE_FILE: 'student/SAVE_FILE',
-  DELETE_TOPIC: 'student/DELETE_TOPIC',
+  DELETE_LOP: 'student/DELETE_TOPIC',
 };
 
 const initialState = {
