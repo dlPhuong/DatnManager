@@ -99,7 +99,7 @@ export const getTOPIC = async () => ({
 
 export const saveTOPIC = async (values) => ({
   type: ACTION_TYPES.SAVE_TOPIC,
-  payload: await axios.post('api/saveTeacher', values),
+  payload: await axios.post('api/saveTopic', values),
 });
 
 export const saveFile = async (file) => ({
@@ -113,7 +113,7 @@ export const saveFile = async (file) => ({
 
 export const removeTOPIC= async (values) => ({
   type: ACTION_TYPES.DELETE_TOPIC,
-  payload: await axios.post('api/removeTeacher', values),
+  payload: await axios.post('api/deleteTopic', values),
 });
 
 export const reset = () => ({

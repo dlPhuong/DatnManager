@@ -34,6 +34,7 @@ public class Topic extends AbstractAuditingEntity implements Serializable {
     @Column(name = "nameStudent")
     private String nameStudent;
 
+
     public String getNameTeacher() {
         return nameTeacher;
     }

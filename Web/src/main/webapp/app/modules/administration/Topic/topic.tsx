@@ -12,8 +12,8 @@ import {Column} from "primereact/column";
 import {FileUpload} from "primereact/fileupload";
 import {Button} from 'primereact/button';
 import {InputText} from "primereact/inputtext";
-
 import {Toast} from 'primereact/toast';
+import { Dropdown } from 'primereact/dropdown';
 
 
 export type ITopicPageProps = DispatchProps;
@@ -47,7 +47,6 @@ export const TopicPage = (props: ITopicPageProps) => {
   }
 
   function removestudent() {
-
     var arraystudent = listTopic;
     for (var i in arraystudent) {
       for (var j in topics) {
@@ -73,21 +72,6 @@ export const TopicPage = (props: ITopicPageProps) => {
 
    async function handleSubmit(event, errors, values) {
     values.id = visibleModal.data ? visibleModal.data.id : null;
-   if(selectedFile){
-      const formData = new FormData();
-      formData.append("file", selectedFile);
-     const result = await axios
-        .post('api/upload', formData)
-        .then((res) => {
-          values.image = res.data.filename;
-          return res;
-        })
-        .catch((err) => alert("File Upload Error"));
-     console.log(result)
-    }
-    console.log(values);
-    //values.image = fileResponse.data.filename;
-
     saveTOPIC(values);
     if (values.id != null) { // edit
       var arraystudent = listTopic
@@ -148,20 +132,14 @@ export const TopicPage = (props: ITopicPageProps) => {
     </div>
   );
 
-  const imageBodyTemplate = (rowData) => {
-    return <img src={`http://localhost:8080/images/`+rowData.image} style={{borderRadius: "50%"}}
-                onError={(e) => e.target.src = 'https://genk.mediacdn.vn/2019/11/12/photo-2-1573577922659429699603.jpg'}
-                alt={rowData.image} width={70} height={70} className="product-image"/>;
-  }
-
   return (
     <div>
 
-      <a href={'http://localhost:8080/api/download/teacher.xlsx'}>tải về file import mẫu</a>
+      {/*<a href={'http://localhost:8080/api/download/topic.xlsx'}>tải về file import mẫu</a>*/}
 
-      <FileUpload name="file" accept={".xls,.xlsx"} url="http://localhost:8080/api/uploadExcelFileTeacher"
-                  chooseOptions={chooseOptions} uploadOptions={uploadOptions} cancelOptions={cancelOptions}
-                  uploadHandler={() => myUploader()}/>
+      {/*<FileUpload name="file" accept={".xls,.xlsx"} url="http://localhost:8080/api/uploadExcelFileTopic"*/}
+      {/*            chooseOptions={chooseOptions} uploadOptions={uploadOptions} cancelOptions={cancelOptions}*/}
+      {/*            uploadHandler={() => myUploader()}/>*/}
 
       <DataTable value={listTopic} paginator
                  header={header}
@@ -174,7 +152,6 @@ export const TopicPage = (props: ITopicPageProps) => {
                  rowsPerPageOptions={[10, 20, 50]}
                  paginatorLeft={paginatorLeft} paginatorRight={paginatorRight}>
         <Column selectionMode="multiple" headerStyle={{width: '3em'}}></Column>
-        <Column header="Avatar" body={imageBodyTemplate}></Column>
         <Column field="nameTeacher" header="tên giảng viên"></Column>
         <Column field="topicName" header="tên đề tài"></Column>
         <Column field="status" header="trạng thái"></Column>
@@ -188,8 +165,6 @@ export const TopicPage = (props: ITopicPageProps) => {
         <div className="p-fluid">
 
           <AvForm onSubmit={handleSubmit}>
-            <AvField name="nameTeacher" label="tên giảng viên"
-                     value={visibleModal.data ? visibleModal.data.nameTeacher : null} required/>
 
             <AvField name="topicName" label="tên đề tài" value={visibleModal.data ? visibleModal.data.topicName : null}
                      required/>
