@@ -74,6 +74,7 @@ export const StudentPage = (props: IStudentPageProps) => {
 
   async function handleSubmit(event, errors, values) {
     values.id = visibleModal.data ? visibleModal.data.id : null;
+    values.idUserAuth = visibleModal.data ? visibleModal.data.idUserAuth : null;
     values.status = visibleModal.data ? visibleModal.data.status : "được phép bảo vệ";
     if (selectedFile) {
       const formData = new FormData();

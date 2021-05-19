@@ -4,9 +4,11 @@ package com.phuong.datn.web.rest;
 import com.phuong.datn.config.Commons;
 import com.phuong.datn.domain.Response.BaseResponse;
 import com.phuong.datn.domain.Student;
+import com.phuong.datn.domain.User;
 import com.phuong.datn.repository.StudentRepository;
 import com.phuong.datn.repository.TeacherRepository;
 import com.phuong.datn.repository.TopicRepository;
+import com.phuong.datn.repository.UserRepository;
 import com.phuong.datn.service.StudentService;
 import org.apache.commons.io.FileUtils;
 import org.apache.poi.xssf.usermodel.XSSFRow;
@@ -18,6 +20,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.util.FileCopyUtils;
 import org.springframework.util.ResourceUtils;
 import org.springframework.util.StringUtils;
@@ -36,15 +39,15 @@ import java.util.List;
 public class StudentController {
     @Autowired
     StudentRepository studentRepository;
-//    @GetMapping("/getAllStudent")
-//    public BaseResponse getALlStudent() {
-//        BaseResponse baseResponse = new BaseResponse(Commons.SUCCESS, Commons.SUCCESS, studentRepository.findAll());
-//        return baseResponse;
-//    }
+
+    @Autowired
+    UserRepository userRepository;
+
+
+
 
     @GetMapping("/getAllStudent")
     public List<Student> getALlStudent() {
-        //BaseResponse baseResponse = new BaseResponse(Commons.SUCCESS, Commons.SUCCESS, studentRepository.findAll());
         return studentRepository.findAll();
     }
 
@@ -64,7 +67,7 @@ public class StudentController {
     @RequestMapping(value = "/download/{fileName}", method = RequestMethod.GET)
     public void dowloadTemplate(HttpServletResponse response, @PathVariable(name = "fileName") String filename) throws IOException {
         try {
-            File file = ResourceUtils.getFile("classpath:templates/" + filename+".xlsx");
+            File file = ResourceUtils.getFile("classpath:templates/" + filename + ".xlsx");
             byte[] data = Files.readAllBytes(file.toPath());
             // Thiết lập thông tin trả về
             response.setContentType("application/octet-stream");
@@ -78,7 +81,16 @@ public class StudentController {
 
     @PostMapping("/saveStudent")
     public void saveStudent(@RequestBody Student student) {
+        if(student.getIdUserAuth()!=null){
+            User user = userRepository.findFirstById(student.getIdUserAuth());
+            user.setImageUrl(student.getImage());
+            user.setLastName(student.getName());
+            userRepository.save(user);
+        }else{
+          studentService.saveStudentAuth(student); // save to user
+        }
         studentRepository.save(student);
+
     }
 
     @PostMapping("/removeStudent")

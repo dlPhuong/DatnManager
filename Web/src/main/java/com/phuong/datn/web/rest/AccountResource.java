@@ -1,7 +1,12 @@
 package com.phuong.datn.web.rest;
 
+import com.phuong.datn.domain.Student;
+import com.phuong.datn.domain.Teacher;
 import com.phuong.datn.domain.User;
+import com.phuong.datn.repository.StudentRepository;
+import com.phuong.datn.repository.TeacherRepository;
 import com.phuong.datn.repository.UserRepository;
+import com.phuong.datn.security.AuthoritiesConstants;
 import com.phuong.datn.security.SecurityUtils;
 import com.phuong.datn.service.MailService;
 import com.phuong.datn.service.UserService;
@@ -14,6 +19,7 @@ import com.phuong.datn.web.rest.vm.ManagedUserVM;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -42,6 +48,12 @@ public class AccountResource {
 
     private final MailService mailService;
 
+    @Autowired
+    private TeacherRepository teacherRepository;
+
+    @Autowired
+    private StudentRepository studentRepository;
+
     public AccountResource(UserRepository userRepository, UserService userService, MailService mailService) {
 
         this.userRepository = userRepository;
@@ -53,7 +65,7 @@ public class AccountResource {
      * {@code POST  /register} : register the user.
      *
      * @param managedUserVM the managed user View Model.
-     * @throws InvalidPasswordException {@code 400 (Bad Request)} if the password is incorrect.
+     * @throws InvalidPasswordException  {@code 400 (Bad Request)} if the password is incorrect.
      * @throws EmailAlreadyUsedException {@code 400 (Bad Request)} if the email is already used.
      * @throws LoginAlreadyUsedException {@code 400 (Bad Request)} if the login is already used.
      */
@@ -111,7 +123,7 @@ public class AccountResource {
      *
      * @param userDTO the current user information.
      * @throws EmailAlreadyUsedException {@code 400 (Bad Request)} if the email is already used.
-     * @throws RuntimeException {@code 500 (Internal Server Error)} if the user login wasn't found.
+     * @throws RuntimeException          {@code 500 (Internal Server Error)} if the user login wasn't found.
      */
     @PostMapping("/account")
     public void saveAccount(@Valid @RequestBody UserDTO userDTO) {
@@ -126,6 +138,19 @@ public class AccountResource {
         }
         userService.updateUser(userDTO.getFirstName(), userDTO.getLastName(), userDTO.getEmail(),
             userDTO.getLangKey(), userDTO.getImageUrl());
+        Iterator<String> iterator = userDTO.getAuthorities().iterator();
+        while (iterator.hasNext()) {
+            String auth = iterator.next();
+            if (auth.equalsIgnoreCase(AuthoritiesConstants.TEACHER)) {
+                Teacher teacher = new Teacher(userDTO);
+                teacherRepository.save(teacher);
+            } else if (auth.equalsIgnoreCase(AuthoritiesConstants.USER)) {
+                Student student = new Student(userDTO);
+                studentRepository.save(student);
+            }
+        }
+
+
     }
 
     /**
@@ -164,7 +189,7 @@ public class AccountResource {
      *
      * @param keyAndPassword the generated key and the new password.
      * @throws InvalidPasswordException {@code 400 (Bad Request)} if the password is incorrect.
-     * @throws RuntimeException {@code 500 (Internal Server Error)} if the password could not be reset.
+     * @throws RuntimeException         {@code 500 (Internal Server Error)} if the password could not be reset.
      */
     @PostMapping(path = "/account/reset-password/finish")
     public void finishPasswordReset(@RequestBody KeyAndPasswordVM keyAndPassword) {
