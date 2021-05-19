@@ -115,7 +115,7 @@ export const TopicPage = (props: ITopicPageProps) => {
         <Button icon="pi pi-pencil" className="p-button-rounded p-button-success p-mr-2"
                 onClick={() => setvisibleModal({vis: true, mode: "Cập nhật", data: rowData})}/>
         <Link to="/report">
-          <Button icon="pi pi-calendar" className="p-button-rounded p-button-success p-mr-2"/>
+          <Button icon="pi pi-calendar" onClick={()=> localStorage.setItem("student",JSON.stringify(rowData))} className="p-button-rounded p-button-success p-mr-2"/>
         </Link>
 
 

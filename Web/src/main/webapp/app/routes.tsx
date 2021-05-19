@@ -34,11 +34,11 @@ const Routes = () => (
   <div className="view-routes">
     <Switch>
 
-      <PrivateRoute path="/student" component={StudentPage} hasAnyAuthorities={[AUTHORITIES.ADMIN]} />
+      <PrivateRoute path="/student" component={StudentPage} hasAnyAuthorities={[AUTHORITIES.ADMIN,AUTHORITIES.TEACHER]} />
       <PrivateRoute path="/teacher" component={TeacherPage} hasAnyAuthorities={[AUTHORITIES.ADMIN]} />
-      <PrivateRoute path="/topic" component={TopicPage} hasAnyAuthorities={[AUTHORITIES.ADMIN]} />
+      <PrivateRoute path="/topic" component={TopicPage} hasAnyAuthorities={[AUTHORITIES.ADMIN,AUTHORITIES.TEACHER]} />
       <PrivateRoute path="/Class" component={LopPage} hasAnyAuthorities={[AUTHORITIES.ADMIN]} />
-      <PrivateRoute path="/report" component={ReportPage} hasAnyAuthorities={[AUTHORITIES.ADMIN]} />
+      <PrivateRoute path="/report" component={ReportPage} hasAnyAuthorities={[AUTHORITIES.ADMIN,AUTHORITIES.TEACHER]} />
 
       <ErrorBoundaryRoute path="/login" component={Login} />
       <ErrorBoundaryRoute path="/logout" component={Logout} />

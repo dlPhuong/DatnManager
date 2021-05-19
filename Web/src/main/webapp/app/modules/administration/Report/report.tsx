@@ -17,9 +17,10 @@ import {Dropdown} from 'primereact/dropdown';
 import {Link} from "react-router-dom";
 
 
-export type ITopicPageProps = DispatchProps;
+export interface IReportPageProps extends StateProps, DispatchProps {
+}
 
-export const ReportPage = (props: ITopicPageProps) => {
+export const ReportPage = (props: IReportPageProps) => {
   const [listReport, srtlistReport] = useState(null);
 
   const [topics, settopics] = useState(null);
@@ -36,13 +37,11 @@ export const ReportPage = (props: ITopicPageProps) => {
   }, []);
 
 
-
   async function fetchMyAPI() {
-    const teacher = await getTOPIC("3");
+    const student = JSON.parse(localStorage.getItem('student'));
+    const teacher = await getTOPIC(student.idStudent);
     srtlistReport(teacher.payload.data)
   }
-
-
 
   function removestudent() {
     var arraystudent = listReport;
@@ -116,11 +115,11 @@ export const ReportPage = (props: ITopicPageProps) => {
     );
   }
 
-  function bodyfile(rowData){
-    return(
-    <div>
-      <a href={'http://localhost:8080/api/dowload/?filename='+rowData.filename}>{rowData.filename}</a>
-    </div>
+  function bodyfile(rowData) {
+    return (
+      <div>
+        <a href={'http://localhost:8080/api/dowload/?filename=' + rowData.filename}>{rowData.filename}</a>
+      </div>
     );
   }
 
@@ -137,16 +136,8 @@ export const ReportPage = (props: ITopicPageProps) => {
        </span>
     </div>
   );
-
   return (
     <div>
-
-      {/*<a href={'http://localhost:8080/api/download/topic.xlsx'}>tải về file import mẫu</a>*/}
-
-      {/*<FileUpload name="file" accept={".xls,.xlsx"} url="http://localhost:8080/api/uploadExcelFileTopic"*/}
-      {/*            chooseOptions={chooseOptions} uploadOptions={uploadOptions} cancelOptions={cancelOptions}*/}
-      {/*            uploadHandler={() => myUploader()}/>*/}
-
       <DataTable value={listReport} paginator
                  header={header}
                  selection={topics}
@@ -164,7 +155,7 @@ export const ReportPage = (props: ITopicPageProps) => {
         <Column field="status" header="trạng thái"></Column>
         <Column field="process" header="tiến độ"></Column>
         <Column field="deadline" header="thời hạn"></Column>
-        <Column  body={bodyfile} header="file"></Column>
+        <Column body={bodyfile} header="file"></Column>
         <Column body={actionBodyTemplate}></Column>
       </DataTable>
 
@@ -175,13 +166,17 @@ export const ReportPage = (props: ITopicPageProps) => {
 
           <AvForm onSubmit={handleSubmit}>
 
-            <AvField name="topicName" label="tên đề tài" value={visibleModal.data ? visibleModal.data.topicName : null}
+            <AvField name="nameReport" label="tên báo cáo"
+                     value={visibleModal.data ? visibleModal.data.nameReport : null}
                      required/>
 
             <AvField name="status" label="trạng thái" value={visibleModal.data ? visibleModal.data.status : null}
                      required/>
 
-            <AvField name="description" label="mô tả" value={visibleModal.data ? visibleModal.data.description : null}
+            <AvField name="process" label="tiến độ" value={visibleModal.data ? visibleModal.data.process : null}
+                     required/>
+
+            <AvField name="deadline" label="thời hạn" value={visibleModal.data ? visibleModal.data.deadline : null}
                      required/>
 
             <div className="p-d-flex">
@@ -199,7 +194,12 @@ export const ReportPage = (props: ITopicPageProps) => {
   );
 };
 
+const mapStateToProps = ({student}: IRootState) => ({
+  listStudent: student.listStudent,
+});
+
 const mapDispatchToProps = {getTOPIC, saveTOPIC, removeTOPIC, handleRegister, reset};
+type StateProps = ReturnType<typeof mapStateToProps>;
 type DispatchProps = typeof mapDispatchToProps;
 
-export default connect(null, mapDispatchToProps)(ReportPage);
+export default connect(mapStateToProps, mapDispatchToProps)(ReportPage);

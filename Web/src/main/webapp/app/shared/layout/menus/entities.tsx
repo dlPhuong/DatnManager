@@ -28,7 +28,6 @@ const Managerment = (
   </>
 );
 
-
 export const EntitiesMenu = props => (
   <NavDropdown icon="th-list" name="Thực thể" id="entity-menu" style={{ maxHeight: '80vh', overflow: 'auto' }}>
     {Managerment}

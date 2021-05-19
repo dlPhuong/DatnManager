@@ -13,11 +13,12 @@ import {InputText} from "primereact/inputtext";
 
 import {Toast} from 'primereact/toast';
 import axios from "axios";
+import {IRootState} from "app/shared/reducers";
 
 
-export type IRegisterProps = DispatchProps;
+export interface IStudentPageProps extends StateProps, DispatchProps {}
 
-export const StudentPage = (props: IRegisterProps) => {
+export const StudentPage = (props: IStudentPageProps) => {
   const [liststudent, setlistStudent] = useState(null); // load list
   const [students, setStudent] = useState(null); // list để xóa
 
@@ -38,7 +39,7 @@ export const StudentPage = (props: IRegisterProps) => {
 
   async function fetchMyAPI() {
     const student = await getStudent();
-    setlistStudent(student.payload.data)
+    setlistStudent(student.payload.data);
   }
 
   function myUploader() {
@@ -216,7 +217,12 @@ export const StudentPage = (props: IRegisterProps) => {
   );
 };
 
+const mapStateToProps = ({ student }: IRootState) => ({
+  listStudent: student.listStudent,
+});
+
 const mapDispatchToProps = {getStudent, saveStudent, removeStudent, handleRegister, reset};
+type StateProps = ReturnType<typeof mapStateToProps>;
 type DispatchProps = typeof mapDispatchToProps;
 
 export default connect(null, mapDispatchToProps)(StudentPage);
