@@ -1,5 +1,7 @@
 package com.phuong.datn.web.rest;
 
+import com.phuong.datn.config.Commons;
+import com.phuong.datn.domain.Authority;
 import com.phuong.datn.domain.Student;
 import com.phuong.datn.domain.Teacher;
 import com.phuong.datn.domain.User;
@@ -34,6 +36,12 @@ import java.util.*;
 @RequestMapping("/api")
 public class AccountResource {
 
+    @Autowired
+    StudentRepository studentRepository;
+
+    @Autowired
+    TeacherRepository teacherRepository;
+
     private static class AccountResourceException extends RuntimeException {
         private AccountResourceException(String message) {
             super(message);
@@ -48,11 +56,6 @@ public class AccountResource {
 
     private final MailService mailService;
 
-    @Autowired
-    private TeacherRepository teacherRepository;
-
-    @Autowired
-    private StudentRepository studentRepository;
 
     public AccountResource(UserRepository userRepository, UserService userService, MailService mailService) {
 
@@ -113,6 +116,20 @@ public class AccountResource {
      */
     @GetMapping("/account")
     public UserDTO getAccount() {
+        Optional<User> userDTO1 = userService.getUserWithAuthorities();
+        UserDTO userDTO = null;
+        Authority authorities = userDTO1.get().getAuthorities().iterator().next();
+        if (authorities.getName().equals(AuthoritiesConstants.USER)) {
+            Student student = studentRepository.findFirstByIdUserAuth(userDTO1.get().getId());
+            userDTO = new UserDTO(student, userDTO1.get());
+        }
+        if (authorities.getName().equals(AuthoritiesConstants.TEACHER)) {
+            Teacher teacher = teacherRepository.findFirstByIdUserAuth(userDTO1.get().getId());
+            userDTO = new UserDTO(teacher, userDTO1.get());
+        }
+        if (userDTO != null) {
+            return userDTO;
+        }
         return userService.getUserWithAuthorities()
             .map(UserDTO::new)
             .orElseThrow(() -> new AccountResourceException("User could not be found"));
@@ -142,10 +159,11 @@ public class AccountResource {
         while (iterator.hasNext()) {
             String auth = iterator.next();
             if (auth.equalsIgnoreCase(AuthoritiesConstants.TEACHER)) {
-                Teacher teacher = new Teacher(userDTO);
+                Teacher teacher = new Teacher(userDTO, teacherRepository.findFirstByIdUserAuth(userDTO.getId()));
                 teacherRepository.save(teacher);
             } else if (auth.equalsIgnoreCase(AuthoritiesConstants.USER)) {
-                Student student = new Student(userDTO);
+                Student student1 = studentRepository.findFirstByIdUserAuth(userDTO.getId());
+                Student student = new Student(userDTO, student1);
                 studentRepository.save(student);
             }
         }

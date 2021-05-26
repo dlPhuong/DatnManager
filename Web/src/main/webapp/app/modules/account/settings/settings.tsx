@@ -75,6 +75,49 @@ export const SettingsPage = (props: IUserSettingsProps) => {
               }}
               value={props.account.email}
             />
+
+            <AvField
+              className="form-control"
+              name="address"
+              label="address"
+              id="address"
+              placeholder="Your address"
+              validate={{
+                required: { value: true, errorMessage: 'Your address is required.' },
+                minLength: { value: 1, errorMessage: 'Your address is required to be at least 1 character' },
+                maxLength: { value: 50, errorMessage: 'Your address cannot be longer than 50 characters' },
+              }}
+              value={props.account.address}
+            />
+
+            <AvField
+              className="form-control"
+              name="phone"
+              label="phone"
+              id="phone"
+              placeholder="Your phone"
+              validate={{
+                required: { value: true, errorMessage: 'Your address is required.' },
+                minLength: { value: 1, errorMessage: 'Your address is required to be at least 1 character' },
+                maxLength: { value: 50, errorMessage: 'Your address cannot be longer than 50 characters' },
+              }}
+              value={props.account.phone}
+            />
+
+            <AvField
+              className="form-control"
+              name="birthDay"
+              label="birthDay"
+              id="birthDay"
+              placeholder="Your birthDay"
+              validate={{
+                required: { value: true, errorMessage: 'Your address is required.' },
+                minLength: { value: 1, errorMessage: 'Your address is required to be at least 1 character' },
+                maxLength: { value: 50, errorMessage: 'Your address cannot be longer than 50 characters' },
+              }}
+              value={props.account.birthDay}
+            />
+
             <Button color="primary" type="submit">
               Save
             </Button>

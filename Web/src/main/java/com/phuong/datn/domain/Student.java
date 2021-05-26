@@ -1,6 +1,7 @@
 package com.phuong.datn.domain;
 
 import com.phuong.datn.service.dto.UserDTO;
+import org.openxmlformats.schemas.wordprocessingml.x2006.main.STUnsignedDecimalNumber;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -61,10 +62,26 @@ public class Student extends AbstractAuditingEntity implements Serializable {
     public Student() {
     }
 
-    public Student(UserDTO dto) {
+
+
+    public Student(UserDTO dto, Student student) {
         this.idUserAuth = dto.getId();
-        this.name = dto.getLastName();
+        this.name = dto.getLastName()+" "+dto.getFirstName();
         this.image = dto.getImageUrl();
+        this.id = student.getId();
+        this.maSinhVien = student.getMaSinhVien();
+        this.name = student.getName();
+        this.birthDay = dto.getBirthDay();
+        this.address = dto.getAddress();
+        this.phone = dto.getPhone();
+        this.idClass = student.getIdClass();
+        this.idTeacher = student.getIdTeacher();
+        this.idTopic = student.getIdTopic();
+        this.image = student.getImage();
+        this.linkGithub = student.getLinkGithub();
+        this.idPb = student.getIdPb();
+        this.status = student.getStatus();
+        this.note = student.getNote();
     }
 
     public Long getIdUserAuth() {

@@ -40,10 +40,17 @@ public class Teacher extends AbstractAuditingEntity implements Serializable {
     public Teacher() {
     }
 
-    public Teacher(UserDTO dto) {
+    public Teacher(UserDTO dto,Teacher teacher) {
         this.idUserAuth = dto.getId();
-        this.nameTeacher = dto.getLastName();
+        this.nameTeacher = dto.getLastName()+" "+dto.getFirstName();
         this.image = dto.getImageUrl();
+        this.id = teacher.getId();
+        this.nameTeacher = teacher.getNameTeacher();
+        this.birthdate = teacher.getBirthdate();
+        this.address = teacher.getAddress();
+        this.phone = teacher.getPhone();
+        this.idClass = teacher.getIdClass();
+        this.image = teacher.getImage();
     }
 
     public Long getIdUserAuth() {

@@ -155,12 +155,12 @@ public class UserResource {
                 String roles = iterator.next();
                 if(roles.equalsIgnoreCase(AuthoritiesConstants.TEACHER)){
                     // save user teach
-                    Teacher teacher = new Teacher(userDTO);
+                    Teacher teacher = new Teacher(userDTO,teacherRepository.findFirstByIdUserAuth(userDTO.getId()));
                     teacherRepository.save(teacher);
                 }
                 if(roles.equalsIgnoreCase(AuthoritiesConstants.USER)){
                     // save info student
-                    Student student = new Student(userDTO);
+                    Student student = new Student(userDTO,studentRepository.findFirstByIdUserAuth(userDTO.getId()));
                     studentRepository.save(student);
                 }
             }
