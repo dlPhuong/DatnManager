@@ -38,6 +38,15 @@ public class UserDTO {
 
     private Set<String> authorities;
 
+    private String birthDay;
+
+    private String address;
+
+    private String phone;
+
+
+
+
     public UserDTO() {
         // Empty constructor needed for Jackson.
     }
@@ -156,6 +165,30 @@ public class UserDTO {
 
     public void setAuthorities(Set<String> authorities) {
         this.authorities = authorities;
+    }
+
+    public String getBirthDay() {
+        return birthDay;
+    }
+
+    public void setBirthDay(String birthDay) {
+        this.birthDay = birthDay;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
     }
 
     // prettier-ignore
