@@ -3,6 +3,7 @@ package com.phuong.datn.domain;
 import com.phuong.datn.config.Constants;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.phuong.datn.service.dto.UserDTO;
 import org.apache.commons.lang3.StringUtils;
 import org.hibernate.annotations.BatchSize;
 import org.hibernate.annotations.Cache;
@@ -198,6 +199,12 @@ public class User extends AbstractAuditingEntity implements Serializable {
     public void setAuthorities(Set<Authority> authorities) {
         this.authorities = authorities;
     }
+
+    public boolean isActivated() {
+        return activated;
+    }
+
+
 
     @Override
     public boolean equals(Object o) {

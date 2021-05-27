@@ -148,25 +148,6 @@ public class UserResource {
         }
         Optional<UserDTO> updatedUser = userService.updateUser(userDTO);
 
-        // check kiểm tra xem có trong csdl chưa
-        if(teacherRepository.findFirstByIdUserAuth(userDTO.getId()) == null && studentRepository.findFirstByIdUserAuth(userDTO.getId()) == null ){
-            Iterator<String> iterator = userDTO.getAuthorities().iterator();
-            while (iterator.hasNext()) {
-                String roles = iterator.next();
-                if(roles.equalsIgnoreCase(AuthoritiesConstants.TEACHER)){
-                    // save user teach
-                    Teacher teacher = new Teacher(userDTO,teacherRepository.findFirstByIdUserAuth(userDTO.getId()));
-                    teacherRepository.save(teacher);
-                }
-                if(roles.equalsIgnoreCase(AuthoritiesConstants.USER)){
-                    // save info student
-                    Student student = new Student(userDTO,studentRepository.findFirstByIdUserAuth(userDTO.getId()));
-                    studentRepository.save(student);
-                }
-            }
-        }
-
-
         return ResponseUtil.wrapOrNotFound(updatedUser,
             HeaderUtil.createAlert(applicationName, "A user is updated with identifier " + userDTO.getLogin(), userDTO.getLogin()));
     }

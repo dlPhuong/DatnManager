@@ -116,20 +116,6 @@ public class AccountResource {
      */
     @GetMapping("/account")
     public UserDTO getAccount() {
-        Optional<User> userDTO1 = userService.getUserWithAuthorities();
-        UserDTO userDTO = null;
-        Authority authorities = userDTO1.get().getAuthorities().iterator().next();
-        if (authorities.getName().equals(AuthoritiesConstants.USER)) {
-            Student student = studentRepository.findFirstByIdUserAuth(userDTO1.get().getId());
-            userDTO = new UserDTO(student, userDTO1.get());
-        }
-        if (authorities.getName().equals(AuthoritiesConstants.TEACHER)) {
-            Teacher teacher = teacherRepository.findFirstByIdUserAuth(userDTO1.get().getId());
-            userDTO = new UserDTO(teacher, userDTO1.get());
-        }
-        if (userDTO != null) {
-            return userDTO;
-        }
         return userService.getUserWithAuthorities()
             .map(UserDTO::new)
             .orElseThrow(() -> new AccountResourceException("User could not be found"));
@@ -155,19 +141,6 @@ public class AccountResource {
         }
         userService.updateUser(userDTO.getFirstName(), userDTO.getLastName(), userDTO.getEmail(),
             userDTO.getLangKey(), userDTO.getImageUrl());
-        Iterator<String> iterator = userDTO.getAuthorities().iterator();
-        while (iterator.hasNext()) {
-            String auth = iterator.next();
-            if (auth.equalsIgnoreCase(AuthoritiesConstants.TEACHER)) {
-                Teacher teacher = new Teacher(userDTO, teacherRepository.findFirstByIdUserAuth(userDTO.getId()));
-                teacherRepository.save(teacher);
-            } else if (auth.equalsIgnoreCase(AuthoritiesConstants.USER)) {
-                Student student1 = studentRepository.findFirstByIdUserAuth(userDTO.getId());
-                Student student = new Student(userDTO, student1);
-                studentRepository.save(student);
-            }
-        }
-
 
     }
 
