@@ -84,24 +84,6 @@ public class StudentService {
         }
     }
 
-    public void saveStudentAuth(Student student) {
-        User newUser = new User();
-        String userName = VNCharacterUtils.removeAccent(student.getName()).replaceAll("\\s", "");
-        String encryptedPassword = passwordEncoder.encode(userName);
-        newUser.setLogin(userName);
-        // new user gets initially a generated password
-        newUser.setPassword(encryptedPassword);
-        newUser.setLastName(student.getName());
-        newUser.setImageUrl(student.getImage());
-        newUser.setLangKey("en");
-        // new user is not active
-        newUser.setActivated(false);
-        // new user gets registration key
-        newUser.setActivationKey(RandomUtil.generateActivationKey());
-        Set<Authority> authorities = new HashSet<>();
-        authorityRepository.findById(AuthoritiesConstants.USER).ifPresent(authorities::add);
-        newUser.setAuthorities(authorities);
-        userRepository.save(newUser);
-    }
+
 
 }

@@ -13,7 +13,9 @@ import com.phuong.datn.service.MailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
+
 import java.util.Collections;
+
 import com.phuong.datn.service.UserService;
 import com.phuong.datn.service.dto.UserDTO;
 import com.phuong.datn.web.rest.errors.BadRequestAlertException;
@@ -102,7 +104,7 @@ public class UserResource {
      *
      * @param userDTO the user to create.
      * @return the {@link ResponseEntity} with status {@code 201 (Created)} and with body the new user, or with status {@code 400 (Bad Request)} if the login or email is already in use.
-     * @throws URISyntaxException if the Location URI syntax is incorrect.
+     * @throws URISyntaxException       if the Location URI syntax is incorrect.
      * @throws BadRequestAlertException {@code 400 (Bad Request)} if the login or email is already in use.
      */
     @PostMapping("/users")
@@ -121,7 +123,7 @@ public class UserResource {
             User newUser = userService.createUser(userDTO);
             mailService.sendCreationEmail(newUser);
             return ResponseEntity.created(new URI("/api/users/" + newUser.getLogin()))
-                .headers(HeaderUtil.createAlert(applicationName,  "A user is created with identifier " + newUser.getLogin(), newUser.getLogin()))
+                .headers(HeaderUtil.createAlert(applicationName, "A user is created with identifier " + newUser.getLogin(), newUser.getLogin()))
                 .body(newUser);
         }
     }
@@ -148,8 +150,34 @@ public class UserResource {
         }
         Optional<UserDTO> updatedUser = userService.updateUser(userDTO);
 
+        // update vào bảng student
+
+        String auth = userDTO.getAuthorities().iterator().next();
+        if (studentRepository.findFirstByIdUserAuth(userDTO.getId()) != null) {
+            updateInfo(auth,userDTO,"SV");
+        }else if(teacherRepository.findFirstByIdUserAuth(userDTO.getId()) != null){
+            updateInfo(auth,userDTO,"GV");
+        }else{
+            updateInfo(auth,userDTO,"GV");
+        }
+
         return ResponseUtil.wrapOrNotFound(updatedUser,
             HeaderUtil.createAlert(applicationName, "A user is updated with identifier " + userDTO.getLogin(), userDTO.getLogin()));
+    }
+
+    private void updateInfo(String auth,UserDTO userDTO,String key){
+        if (auth.equalsIgnoreCase(AuthoritiesConstants.USER)) {
+            Student student = new Student(userDTO);
+            studentRepository.save(student);
+            Teacher teacher = teacherRepository.findFirstByIdUserAuth(userDTO.getId());
+            teacherRepository.delete(teacher);
+        }
+        if (auth.equalsIgnoreCase(AuthoritiesConstants.TEACHER)) {
+            Teacher teacher = new Teacher(userDTO);
+            teacherRepository.save(teacher);
+            Student student = studentRepository.findFirstByIdUserAuth(userDTO.getId());
+            studentRepository.delete(student);
+        }
     }
 
 
@@ -182,6 +210,7 @@ public class UserResource {
 
     /**
      * Gets a list of all roles.
+     *
      * @return a string list of all roles.
      */
     @GetMapping("/users/authorities")
@@ -215,6 +244,6 @@ public class UserResource {
     public ResponseEntity<Void> deleteUser(@PathVariable String login) {
         log.debug("REST request to delete User: {}", login);
         userService.deleteUser(login);
-        return ResponseEntity.noContent().headers(HeaderUtil.createAlert(applicationName,  "A user is deleted with identifier " + login, login)).build();
+        return ResponseEntity.noContent().headers(HeaderUtil.createAlert(applicationName, "A user is deleted with identifier " + login, login)).build();
     }
 }

@@ -16,6 +16,12 @@ public class Teacher extends AbstractAuditingEntity implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(name = "user")
+    private String user;
+
+    @Column(name = "password")
+    private String password;
+
     @Column(name = "nameteacher")
     private String nameTeacher;
 
@@ -40,17 +46,17 @@ public class Teacher extends AbstractAuditingEntity implements Serializable {
     public Teacher() {
     }
 
-    public Teacher(UserDTO dto,Teacher teacher) {
-        this.idUserAuth = dto.getId();
-        this.nameTeacher = dto.getLastName()+" "+dto.getFirstName();
-        this.image = dto.getImageUrl();
-        this.id = teacher.getId();
-        this.nameTeacher = teacher.getNameTeacher();
-        this.birthdate = teacher.getBirthdate();
-        this.address = teacher.getAddress();
-        this.phone = teacher.getPhone();
-        this.idClass = teacher.getIdClass();
-        this.image = teacher.getImage();
+    public Teacher(UserDTO userDTO) {
+        this.id = id;
+        this.user = user;
+        this.password = password;
+        this.nameTeacher = nameTeacher;
+        this.birthdate = birthdate;
+        this.address = address;
+        this.phone = phone;
+        this.idClass = idClass;
+        this.image = image;
+        this.idUserAuth = userDTO.getId();
     }
 
     public Long getIdUserAuth() {

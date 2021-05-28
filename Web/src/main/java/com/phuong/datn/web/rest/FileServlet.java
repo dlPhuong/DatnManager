@@ -1,5 +1,7 @@
 package com.phuong.datn.web.rest;
 
+import com.phuong.datn.config.Commons;
+
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -16,7 +18,7 @@ public class FileServlet extends HttpServlet {
             throws IOException
     {
         String filename = URLDecoder.decode(request.getPathInfo().substring(1), "UTF-8");
-        File file = new File("C:\\Users\\tungn\\Uploads\\", filename);
+        File file = new File(Commons.URL_IMAGE, filename);
         response.setHeader("Content-Type", getServletContext().getMimeType(filename));
         response.setHeader("Content-Length", String.valueOf(file.length()));
         response.setHeader("Content-Disposition", "inline; filename=\"" + file.getName() + "\"");

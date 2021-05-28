@@ -62,6 +62,23 @@ public class Student extends AbstractAuditingEntity implements Serializable {
     public Student() {
     }
 
+    public Student(UserDTO userDTO) {
+        this.id = id;
+        this.maSinhVien = maSinhVien;
+        this.name = name;
+        this.birthDay = birthDay;
+        this.address = address;
+        this.phone = phone;
+        this.idClass = idClass;
+        this.idTeacher = idTeacher;
+        this.idTopic = idTopic;
+        this.image = image;
+        this.linkGithub = linkGithub;
+        this.idPb = idPb;
+        this.status = status;
+        this.note = note;
+        this.idUserAuth = userDTO.getId();
+    }
 
     public Long getIdUserAuth() {
         return idUserAuth;

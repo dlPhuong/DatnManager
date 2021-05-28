@@ -81,16 +81,7 @@ public class StudentController {
 
     @PostMapping("/saveStudent")
     public void saveStudent(@RequestBody Student student) {
-        if(student.getIdUserAuth()!=null){
-            User user = userRepository.findFirstById(student.getIdUserAuth());
-            user.setImageUrl(student.getImage());
-            user.setLastName(student.getName());
-            userRepository.save(user);
-        }else{
-          studentService.saveStudentAuth(student); // save to user
-        }
         studentRepository.save(student);
-
     }
 
     @PostMapping("/removeStudent")
