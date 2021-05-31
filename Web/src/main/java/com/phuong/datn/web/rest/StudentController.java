@@ -10,6 +10,8 @@ import com.phuong.datn.repository.TeacherRepository;
 import com.phuong.datn.repository.TopicRepository;
 import com.phuong.datn.repository.UserRepository;
 import com.phuong.datn.service.StudentService;
+import com.phuong.datn.service.UserService;
+import com.phuong.datn.service.dto.UserDTO;
 import org.apache.commons.io.FileUtils;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
@@ -33,6 +35,7 @@ import java.io.*;
 import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api")
@@ -43,12 +46,20 @@ public class StudentController {
     @Autowired
     UserRepository userRepository;
 
-
+    @Autowired
+    UserService userService;
 
 
     @GetMapping("/getAllStudent")
     public List<Student> getALlStudent() {
         return studentRepository.findAll();
+    }
+
+    @GetMapping("/getInfoStudent")
+    public Student getInfoStudent() {
+        Optional<User> userOption = userService.getUserWithAuthorities();
+        Long id = userOption.get().getId();
+        return studentRepository.findFirstByIdUserAuth(id);
     }
 
     private String fileLocation;

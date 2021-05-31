@@ -3,6 +3,7 @@ package com.example.tpbook.model.viewmodel;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
+import com.example.tpbook.model.data.Teacher;
 import com.example.tpbook.model.response.ReportResponse;
 import com.example.tpbook.model.response.TeacherResponse;
 import com.example.tpbook.service.APILogin;
@@ -16,22 +17,22 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class teacherViewModel extends ViewModel {
-    private APITeacher apiReport = ServiceGenerator.createService(APITeacher.class);
+   // private APITeacher apiReport = ServiceGenerator.createService(APITeacher.class);
 
-   // private APILogin apiLoginWithAuth = ServiceGenerator.createService(APILogin.class, Commons.auth);
+    private APITeacher apiTeacher = ServiceGenerator.createService(APITeacher.class, Commons.auth);
 
-    public MutableLiveData<TeacherResponse> getAllTeacher(){
-        final MutableLiveData<TeacherResponse> newsData = new MutableLiveData<>();
-        apiReport.getAllteacher().enqueue(new Callback<TeacherResponse>() {
+    public MutableLiveData<Teacher> getInfoTeacher(Long idTeacher){
+        final MutableLiveData<Teacher> newsData = new MutableLiveData<>();
+        apiTeacher.getInfoTeacher(idTeacher).enqueue(new Callback<Teacher>() {
             @Override
-            public void onResponse(Call<TeacherResponse> call, Response<TeacherResponse> response) {
+            public void onResponse(Call<Teacher> call, Response<Teacher> response) {
                 if(response.isSuccessful()){
                     newsData.setValue(response.body());
                 }
             }
 
             @Override
-            public void onFailure(Call<TeacherResponse> call, Throwable t) {
+            public void onFailure(Call<Teacher> call, Throwable t) {
 
             }
         });

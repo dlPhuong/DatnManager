@@ -40,10 +40,11 @@ public class TeacherController {
     UserService userService;
 
 
-
-    @GetMapping("/getAllTeacher")
-    public List<Teacher> getAllTeacher() {
-        return teacherRepository.findAll();
+    @GetMapping("/getInfoTeacher")
+    public Teacher getInfoTeacher() {
+        Optional<User> userOption = userService.getUserWithAuthorities();
+        Long id = userOption.get().getId();
+        return teacherRepository.findFirstByIdUserAuth(id);
     }
 
 

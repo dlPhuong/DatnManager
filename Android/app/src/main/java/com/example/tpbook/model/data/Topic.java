@@ -26,13 +26,22 @@ public class Topic {
     @Expose
     private String idStudent;
 
-    public Topic(Integer id, String topicName, String description, String status, String idTeacher, String idStudent) {
+    @SerializedName("nameTeacher")
+    @Expose
+    private String nameTeacher;
+    @SerializedName("nameStudent")
+    @Expose
+    private String nameStudent;
+
+    public Topic(Integer id, String topicName, String description, String status, String idTeacher, String idStudent, String nameTeacher, String nameStudent) {
         this.id = id;
         this.topicName = topicName;
         this.description = description;
         this.status = status;
         this.idTeacher = idTeacher;
         this.idStudent = idStudent;
+        this.nameTeacher = nameTeacher;
+        this.nameStudent = nameStudent;
     }
 
     public String getIdTeacher() {
@@ -83,6 +92,22 @@ public class Topic {
         this.status = status;
     }
 
+    public String getNameTeacher() {
+        return nameTeacher;
+    }
+
+    public void setNameTeacher(String nameTeacher) {
+        this.nameTeacher = nameTeacher;
+    }
+
+    public String getNameStudent() {
+        return nameStudent;
+    }
+
+    public void setNameStudent(String nameStudent) {
+        this.nameStudent = nameStudent;
+    }
+
     @Override
     public String toString() {
         return "Topic{" +
@@ -92,6 +117,8 @@ public class Topic {
                 ", status='" + status + '\'' +
                 ", idTeacher='" + idTeacher + '\'' +
                 ", idStudent='" + idStudent + '\'' +
+                ", nameTeacher='" + nameTeacher + '\'' +
+                ", nameStudent='" + nameStudent + '\'' +
                 '}';
     }
 }

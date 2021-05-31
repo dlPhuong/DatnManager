@@ -1,9 +1,11 @@
 package com.phuong.datn.web.rest;
 
 
+import com.phuong.datn.domain.Student;
 import com.phuong.datn.domain.Teacher;
 import com.phuong.datn.domain.Topic;
 import com.phuong.datn.domain.User;
+import com.phuong.datn.repository.StudentRepository;
 import com.phuong.datn.repository.TopicRepository;
 import com.phuong.datn.service.TeacherService;
 import com.phuong.datn.service.TopicService;
@@ -26,16 +28,20 @@ public class TopicController {
     TopicRepository topicRepository;
 
     @Autowired
+    StudentRepository studentRepository;
+
+    @Autowired
     TopicService topicService;
 
     @Autowired
     UserService userService;
 
 
-    @GetMapping("/getAllTopic")
+    @GetMapping("/getAllTopicStudent")
     public List<Topic> getAllTopic() {
         Optional<User> userOption = userService.getUserWithAuthorities();
-        return topicRepository.findByIdTeacher(userOption.get().getId() + "");
+        Student student = studentRepository.findFirstByIdUserAuth(userOption.get().getId());
+        return topicRepository.findByIdTeacher(student.getIdTeacher()+ "");
     }
 
     @CrossOrigin(origins = "http://localhost:9000")
@@ -43,7 +49,7 @@ public class TopicController {
     public void uploadFile(MultipartFile file) throws IOException {
         List<Topic> topicList = topicService.getListFromExcel(file);
         Optional<User> userOption = userService.getUserWithAuthorities();
-        for(Topic topic : topicList){
+        for (Topic topic : topicList) {
             topic.setIdTeacher(userOption.get().getId() + "");
             topic.setNameTeacher(userOption.get().getFirstName() + " " + userOption.get().getLastName() + "");
         }

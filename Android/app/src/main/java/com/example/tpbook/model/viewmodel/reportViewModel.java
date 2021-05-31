@@ -30,21 +30,5 @@ public class reportViewModel extends ViewModel {
 
     private APILogin apiLoginWithAuth = ServiceGenerator.createService(APILogin.class, Commons.auth);
 
-    public MutableLiveData<ReportResponse> getAllReport(){
-        final MutableLiveData<ReportResponse> newsData = new MutableLiveData<>();
-        apiReport.getAllReport().enqueue(new Callback<ReportResponse>() {
-            @Override
-            public void onResponse(Call<ReportResponse> call, Response<ReportResponse> response) {
-                if(response.isSuccessful()){
-                    newsData.setValue(response.body());
-                }
-            }
 
-            @Override
-            public void onFailure(Call<ReportResponse> call, Throwable t) {
-                System.out.println(t);
-            }
-        });
-        return newsData;
-    }
 }

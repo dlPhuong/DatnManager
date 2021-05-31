@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/item_Topic"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/txtTopicName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="topicname" />
+
+    <TextView
+        android:id="@+id/txtStatus"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="status" />
+
+    <TextView
+        android:id="@+id/txtDescription"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="description" />
+
+    <TextView
+        android:id="@+id/txtNameStudent"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="nameStudent" />
+</LinearLayout>

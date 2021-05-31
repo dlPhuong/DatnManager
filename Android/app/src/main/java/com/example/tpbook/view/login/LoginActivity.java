@@ -12,9 +12,11 @@ import androidx.lifecycle.ViewModelProvider;
 import com.example.tpbook.MainActivity;
 import com.example.tpbook.databinding.ActivityLoginBinding;
 import com.example.tpbook.databinding.MainPageBinding;
+import com.example.tpbook.model.data.Teacher;
 import com.example.tpbook.model.request.LoginRequest;
 import com.example.tpbook.model.response.TokenResponse;
 import com.example.tpbook.model.viewmodel.loginViewModel;
+import com.example.tpbook.model.viewmodel.teacherViewModel;
 import com.example.tpbook.utils.Commons;
 import com.example.tpbook.utils.SharedPref;
 import com.example.tpbook.view.MainPage.MainPageActivity;
@@ -23,6 +25,7 @@ import com.example.tpbook.view.Register.RegisterActivity;
 public class LoginActivity extends AppCompatActivity {
     ActivityLoginBinding binding;
     loginViewModel mloginViewModel;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,6 +58,7 @@ public class LoginActivity extends AppCompatActivity {
                             Commons.auth = "Bearer " + tokenResponse.getIdToken();
                             SharedPref.write(SharedPref.USER,binding.edtUser.getText().toString());
                             SharedPref.write(SharedPref.PASS,binding.edtPass.getText().toString());
+
                             startActivity(new Intent(LoginActivity.this, MainPageActivity.class));
 
                         } else {
@@ -65,9 +69,9 @@ public class LoginActivity extends AppCompatActivity {
                 });
             }
         });
-
-
     }
+
+
 
 
 }
