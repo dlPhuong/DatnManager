@@ -7,6 +7,7 @@ import com.example.tpbook.model.data.User;
 
 public class Commons {
     public static String auth ="";
+    public static final String API_BASE_URL = "http://172.30.128.1:8080/";
 
     public static Teacher teacher = null;
     public static Student student = null;

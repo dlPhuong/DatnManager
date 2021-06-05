@@ -12,9 +12,6 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class RetrofitService {
-    public static String basePath = "http://172.24.48.1:8080/";
-    //public static String basePath = "http://43d2aebdbcea.ngrok.io/api/";
-
     private static OkHttpClient client = new OkHttpClient.Builder().addInterceptor(new Interceptor() {
         @Override
         public Response intercept(Chain chain) throws IOException {
@@ -27,7 +24,7 @@ public class RetrofitService {
 
     private static Retrofit retrofit = new Retrofit.Builder()
             .client(client)
-            .baseUrl(basePath)
+            .baseUrl(Commons.API_BASE_URL)
             .addConverterFactory(GsonConverterFactory.create())
             .build();
 
