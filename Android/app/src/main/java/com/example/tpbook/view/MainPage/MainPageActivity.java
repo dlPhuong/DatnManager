@@ -22,6 +22,7 @@ import com.example.tpbook.model.viewmodel.loginViewModel;
 import com.example.tpbook.model.viewmodel.teacherViewModel;
 import com.example.tpbook.utils.Commons;
 import com.example.tpbook.view.MainPage.fragment.fragment_home;
+import com.example.tpbook.view.fragment.fragment_User;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 
@@ -55,11 +56,15 @@ public class MainPageActivity extends AppCompatActivity {
             switch (item.getItemId()) {
                 case R.id.nav_home:
                     fragment_home home = new fragment_home();
+                    binding.searchBar.searchBar.setVisibility(View.VISIBLE);
                     loadFragment(home);
                     return true;
                 case R.id.nav_report:
                     return true;
                 case R.id.nav_user:
+                    fragment_User user = new fragment_User();
+                    binding.searchBar.searchBar.setVisibility(View.INVISIBLE);
+                    loadFragment(user);
                     return true;
             }
             return false;

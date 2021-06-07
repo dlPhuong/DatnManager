@@ -79,6 +79,8 @@ public class fragment_home extends Fragment implements onEventTopicAdapter {
 
     @Override
     public void onClickItem(Topic topic, int position) {
+        Commons.topic = topic;
+        startActivity(new Intent(getContext(),TopicActivity.class));
         Toast.makeText(getContext(), "hihi " + position, Toast.LENGTH_SHORT).show();
     }
 }

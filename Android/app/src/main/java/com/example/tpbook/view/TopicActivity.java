@@ -17,6 +17,12 @@ public class TopicActivity extends AppCompatActivity {
         binding = ActivityTopicBinding.inflate(getLayoutInflater());
         View view = binding.getRoot();
         setContentView(view);
-        System.out.println(Commons.topic);
+        setupData();
+    }
+
+    private void setupData() {
+        binding.txtnameTopic.setText(Commons.topic.getTopicName());
+        binding.txtDescription.setText(Commons.topic.getDescription());
+        binding.txtstatus.setText(Commons.topic.getStatus());
     }
 }

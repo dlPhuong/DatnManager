@@ -6,4 +6,48 @@
     android:layout_height="match_parent"
     tools:context=".view.TopicActivity">
 
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <include layout="@layout/custom_toolbar" />
+
+            <TextView
+                android:id="@+id/txtnameTopic"
+                android:text="topic name"
+                android:textStyle="bold"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"/>
+
+            <TextView
+                android:id="@+id/txtDescription"
+                android:text="topic name"
+                android:textStyle="bold"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"/>
+
+            <TextView
+                android:id="@+id/txtstatus"
+                android:text="topic name"
+                android:textStyle="bold"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"/>
+
+            <Button
+                android:id="@+id/btnChoose"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="chọn"/>
+
+        </LinearLayout>
+    </ScrollView>
 </androidx.constraintlayout.widget.ConstraintLayout>
