@@ -3,10 +3,10 @@ package com.example.tpbook.view.MainPage;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.Observer;
@@ -20,6 +20,7 @@ import com.example.tpbook.model.data.User;
 import com.example.tpbook.model.viewmodel.StudentViewModel;
 import com.example.tpbook.model.viewmodel.loginViewModel;
 import com.example.tpbook.model.viewmodel.teacherViewModel;
+import com.example.tpbook.utils.BottomNavigationBehavior;
 import com.example.tpbook.utils.Commons;
 import com.example.tpbook.view.MainPage.fragment.fragment_home;
 import com.example.tpbook.view.fragment.fragment_User;
@@ -44,6 +45,8 @@ public class MainPageActivity extends AppCompatActivity {
         loadData();
         binding.navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
         binding.navigation.setSelectedItemId(R.id.nav_home);
+        CoordinatorLayout.LayoutParams layoutParams = (CoordinatorLayout.LayoutParams) binding.navigation.getLayoutParams();
+        layoutParams.setBehavior(new BottomNavigationBehavior());
 
     }
 

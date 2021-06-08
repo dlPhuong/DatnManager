@@ -14,6 +14,7 @@ import com.example.tpbook.databinding.FragmentHomeBinding;
 import com.example.tpbook.databinding.FragmentUserBinding;
 import com.example.tpbook.model.viewmodel.TopicViewModel;
 import com.example.tpbook.model.viewmodel.teacherViewModel;
+import com.example.tpbook.utils.Commons;
 
 public class fragment_User  extends Fragment {
     FragmentUserBinding binding;
@@ -25,7 +26,20 @@ public class fragment_User  extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         binding = FragmentUserBinding.inflate(inflater, container, false);
-
+        setupData();
+        saveUser();
         return binding.getRoot();
+    }
+
+    private void saveUser() {
+
+    }
+
+    private void setupData() {
+        binding.edtname.setText(Commons.student.getName());
+        binding.edtaddress.setText(Commons.student.getAddress());
+        binding.edtemail.setText(Commons.user.getEmail());
+        binding.edtphonenumber.setText(Commons.student.getPhone());
+        binding.edtlinkgithub.setText(Commons.student.getLinkGithub());
     }
 }

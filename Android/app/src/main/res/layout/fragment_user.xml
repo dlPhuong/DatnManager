@@ -76,6 +76,7 @@
                             android:textColorHint="@color/grey_40">
 
                             <androidx.appcompat.widget.AppCompatEditText
+                                android:id="@+id/edtname"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:hint="Name" />
@@ -117,6 +118,7 @@
                                 android:textColorHint="@color/grey_40">
 
                                 <androidx.appcompat.widget.AppCompatEditText
+                                    android:id="@+id/edtphonenumber"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:hint="Phone Number" />
@@ -161,6 +163,7 @@
                                 android:textColorHint="@color/grey_40">
 
                                 <androidx.appcompat.widget.AppCompatEditText
+                                    android:id="@+id/edtemail"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:hint="Email" />
@@ -200,6 +203,7 @@
                             android:textColorHint="@color/grey_40">
 
                             <androidx.appcompat.widget.AppCompatEditText
+                                android:id="@+id/edtaddress"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:hint="Address" />
@@ -239,6 +243,7 @@
                                 android:textColorHint="@color/grey_40">
 
                                 <androidx.appcompat.widget.AppCompatEditText
+                                    android:id="@+id/edtcopany"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:hint="Company" />
@@ -249,17 +254,6 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="@dimen/spacing_large" />
 
-                            <com.google.android.material.textfield.TextInputLayout
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:textColorHint="@color/grey_40">
-
-                                <androidx.appcompat.widget.AppCompatEditText
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:hint="Title" />
-
-                            </com.google.android.material.textfield.TextInputLayout>
 
                         </LinearLayout>
 
@@ -292,6 +286,7 @@
                             android:textColorHint="@color/grey_40">
 
                             <androidx.appcompat.widget.AppCompatEditText
+                                android:id="@+id/edtlinkgithub"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:hint="Website" />
@@ -301,23 +296,15 @@
                     </LinearLayout>
 
                 </LinearLayout>
+                <Button
+                    android:id="@+id/btnsave"
+                    android:text="save"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"/>
 
             </LinearLayout>
 
         </androidx.core.widget.NestedScrollView>
-
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="@dimen/spacing_smlarge"
-            android:clickable="true"
-            android:tint="@android:color/white"
-            app:backgroundTint="@color/blue_grey_800"
-            app:fabSize="normal"
-            app:layout_anchor="@id/lyt_form"
-            app:layout_anchorGravity="top|end|right"
-            app:rippleColor="@android:color/white"
-            app:srcCompat="@drawable/ic_mic" />
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </LinearLayout>
