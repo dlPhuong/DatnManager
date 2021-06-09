@@ -9,6 +9,7 @@ export const ACTION_TYPES = {
   SAVE_REPORT: 'student/SAVE_REPORT',
   SAVE_FILE: 'student/SAVE_FILE',
   DELETE_REPORT: 'student/DELETE_REPORT',
+  LOAD_STUDENT: 'student/LOAD_STUDENT',
 };
 
 const initialState = {
@@ -18,12 +19,13 @@ const initialState = {
   errorMessage: null,
   listTeacher: {} as any,
   listFile: {} as any,
+  listStu: {} as any,
 };
 
-export type StudentState = Readonly<typeof initialState>;
+export type ReportState = Readonly<typeof initialState>;
 
 // Reducer
-export default (state: StudentState = initialState, action): StudentState => {
+export default (state: ReportState = initialState, action): ReportState => {
   switch (action.type) {
     case REQUEST(ACTION_TYPES.CREATE_ACCOUNT):
     case REQUEST(ACTION_TYPES.GET_REPORT):
@@ -93,7 +95,7 @@ export const handleRegister = (login, email, password, langKey = 'en') => ({
 // load TOPIC
 export const getTOPIC = async (idStudent) => ({
   type: ACTION_TYPES.GET_REPORT,
-  payload: await axios.get(`api/getAllReport/`,{
+  payload: await axios.get(`api/getAllReport`,{
     params: {
       idStudent: idStudent,
     }
@@ -102,7 +104,7 @@ export const getTOPIC = async (idStudent) => ({
 
 export const saveTOPIC = async (values) => ({
   type: ACTION_TYPES.SAVE_REPORT,
-  payload: await axios.post('api/saveTopic', values),
+  payload: await axios.post('api/saveReport', values),
 });
 
 export const saveFile = async (file) => ({
@@ -117,6 +119,11 @@ export const saveFile = async (file) => ({
 export const removeTOPIC= async (values) => ({
   type: ACTION_TYPES.DELETE_REPORT,
   payload: await axios.post('api/deleteTopic', values),
+});
+
+export const loadStudent= async () => ({
+  type: ACTION_TYPES.LOAD_STUDENT,
+  payload: await axios.get('api/getListStudentbyTeacher'),
 });
 
 export const reset = () => ({

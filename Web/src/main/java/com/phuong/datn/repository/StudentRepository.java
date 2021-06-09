@@ -10,6 +10,8 @@ import java.util.List;
 public interface StudentRepository extends JpaRepository<Student, Long> {
     Student findFirstByIdUserAuth(Long id);
 
+    Student findFirstById(Long id);
+
     List<Student> findAllByIdTeacher(String id);
 
     void deleteByIdUserAuth(Long id);

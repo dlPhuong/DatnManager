@@ -5,7 +5,7 @@ import {AvForm, AvField} from 'availity-reactstrap-validation';
 
 import PasswordStrengthBar from 'app/shared/layout/password/password-strength-bar';
 import {IRootState} from 'app/shared/reducers';
-import {getTOPIC, handleRegister, removeTOPIC, reset, saveFile, saveTOPIC} from './report.reducer';
+import {getTOPIC, handleRegister, loadStudent, removeTOPIC, reset, saveFile, saveTOPIC} from './report.reducer';
 import {Dialog} from "primereact/dialog";
 import {DataTable} from "primereact/datatable";
 import {Column} from "primereact/column";
@@ -24,7 +24,8 @@ export const ReportPage = (props: IReportPageProps) => {
   const [listReport, srtlistReport] = useState(null);
 
   const [topics, settopics] = useState(null);
-
+  const [student, setStudents] = useState(null);
+  const [selectStudent, setselectStudent] = useState(null);
   const [globalFilter, setGlobalFilter] = useState(null);
   const [visibleModal, setvisibleModal] = useState({vis: false, mode: "", data: null});
   const [selectedFile, setSelectedFile] = useState(null);
@@ -34,6 +35,7 @@ export const ReportPage = (props: IReportPageProps) => {
 
   useEffect(() => {
     fetchMyAPI();
+    loadStu();
   }, []);
 
 
@@ -41,6 +43,11 @@ export const ReportPage = (props: IReportPageProps) => {
     const student = JSON.parse(localStorage.getItem('student'));
     const teacher = await getTOPIC(student.idStudent);
     srtlistReport(teacher.payload.data)
+  }
+
+  async function loadStu() {
+    const stu = await loadStudent();
+    setStudents(stu.payload.data);
   }
 
   function removestudent() {
@@ -68,7 +75,21 @@ export const ReportPage = (props: IReportPageProps) => {
 
 
   async function handleSubmit(event, errors, values) {
+    values.idStudent = selectStudent ? selectStudent.id : null;
     values.id = visibleModal.data ? visibleModal.data.id : null;
+
+    if (selectedFile) {
+      const formData = new FormData();
+      formData.append("file", selectedFile);
+      const result = await axios
+        .post('api/upload', formData)
+        .then((res) => {
+          values.idFile = res.data.id;
+          return res;
+        })
+        .catch((err) => alert("File Upload Error"));
+    }
+
     saveTOPIC(values);
     if (values.id != null) { // edit
       var arraystudent = listReport
@@ -136,6 +157,22 @@ export const ReportPage = (props: IReportPageProps) => {
        </span>
     </div>
   );
+
+  const onStudentChange = (e) => {
+    setselectStudent(e.value);
+  }
+
+  function AddMode() {
+    return(
+      <div>
+        <Dropdown value={selectStudent} options={student} onChange={onStudentChange} optionLabel="name" placeholder="chọn sinh viên" />
+
+        <AvField name="idFile" label="chọn file tài liệu" type="file" accept=".doc,.docx"
+                 onChange={(e) => setSelectedFile(e.target.files[0])}
+                 required/>
+      </div>
+    );
+  }
   return (
     <div>
       <DataTable value={listReport} paginator
@@ -179,6 +216,9 @@ export const ReportPage = (props: IReportPageProps) => {
             <AvField name="deadline" label="thời hạn" value={visibleModal.data ? visibleModal.data.deadline : null}
                      required/>
 
+            {visibleModal.mode=="Thêm"?AddMode():null}
+
+
             <div className="p-d-flex">
               <Button label={visibleModal.mode} icon="pi pi-check"/>
               <Button className="p-mr-2 p-button-danger" label="Cancel" icon="pi pi-times" onClick={onHide}/>
@@ -194,11 +234,11 @@ export const ReportPage = (props: IReportPageProps) => {
   );
 };
 
-const mapStateToProps = ({student}: IRootState) => ({
-  listStudent: student.listStudent,
+const mapStateToProps = ({report}: IRootState) => ({
+  listStudent: report.listStu,
 });
 
-const mapDispatchToProps = {getTOPIC, saveTOPIC, removeTOPIC, handleRegister, reset};
+const mapDispatchToProps = {getTOPIC, saveTOPIC, removeTOPIC, handleRegister,loadStudent, reset};
 type StateProps = ReturnType<typeof mapStateToProps>;
 type DispatchProps = typeof mapDispatchToProps;
 

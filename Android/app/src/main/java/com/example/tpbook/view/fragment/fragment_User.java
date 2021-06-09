@@ -55,6 +55,7 @@ public class fragment_User  extends Fragment {
         binding.edtname.setText(Commons.student.getName());
         binding.edtaddress.setText(Commons.student.getAddress());
         binding.edtemail.setText(Commons.user.getEmail());
+
         binding.edtphonenumber.setText(Commons.student.getPhone());
         binding.edtlinkgithub.setText(Commons.student.getLinkGithub());
         Glide.with(getContext())

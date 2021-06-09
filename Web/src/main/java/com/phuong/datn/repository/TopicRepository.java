@@ -8,4 +8,7 @@ import java.util.List;
 
 public interface TopicRepository extends JpaRepository<Topic, Long> {
     List<Topic> findByIdTeacher(String idTeacher);
+
+    Topic findFirstByIdTeacher(String idTeacher);
+    Topic findFirstByIdStudent(String idstudent);
 }

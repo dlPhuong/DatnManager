@@ -2,10 +2,7 @@ package com.phuong.datn.web.rest;
 
 
 import com.phuong.datn.domain.*;
-import com.phuong.datn.repository.FileRepository;
-import com.phuong.datn.repository.ReportRepository;
-import com.phuong.datn.repository.StudentRepository;
-import com.phuong.datn.repository.TopicRepository;
+import com.phuong.datn.repository.*;
 import com.phuong.datn.service.TopicService;
 import com.phuong.datn.service.UserService;
 import com.phuong.datn.service.dto.ReportDTO;
@@ -32,33 +29,54 @@ public class ReportController {
     StudentRepository studentRepository;
 
     @Autowired
+    TeacherRepository teacherRepository;
+
+    @Autowired
+    TopicRepository topicRepository;
+
+    @Autowired
     UserService userService;
 
 
-    @GetMapping("/getAllReport/")
-    public List<ReportDTO> getAllTopic(@RequestParam(value = "idStudent", required = false) String idStudent) {
+    @GetMapping("/getAllReport")
+    public List<ReportDTO> getAllReport() {
         Optional<User> userOption = userService.getUserWithAuthorities();
-        List<Report> reportList = reportRepository.findAllByIdTeacherAndIdStudent(userOption.get().getId() + "", idStudent);
+        Teacher teacher = teacherRepository.findFirstByIdUserAuth(userOption.get().getId());
+        List<Report> reportList = reportRepository.findAllByIdTeacher(teacher.getId()+"");
         List<ReportDTO> reportDTOS = new ArrayList<>();
-            for(Report report : reportList){
-              File file = fileRepository.findFirstById(Long.parseLong(report.getIdFile()));
-              Student student = studentRepository.findFirstByIdUserAuth(Long.parseLong(idStudent));
-                reportDTOS.add(new ReportDTO(report,student,file));
-            }
+        for(Report report:reportList){
+            Student student = studentRepository.findFirstById(Long.parseLong(report.getIdStudent()));
+            File file = fileRepository.findFirstById(Long.parseLong(report.getIdFile()));
+            reportDTOS.add(new ReportDTO(report,student,file));
+        }
+
         return reportDTOS;
     }
 
-//    @PostMapping("/saveTopic")
-//    public void saveTopic(@RequestBody Report topic) {
-//        Optional<User> userOption = userService.getUserWithAuthorities();
-//        reportRepository.save(topic);
-//    }
-//
-//    @PostMapping("/deleteTopic")
-//    public void deleteTopic(@RequestBody List<Report> topic) {
-//        for (Report topic1 : topic) {
-//            reportRepository.delete(topic1);
-//        }
-//    }
+    @PostMapping("/saveReport")
+    public void saveReport(@RequestBody Report report) {
+        Topic topic = topicRepository.findFirstByIdStudent(report.getIdStudent());
+        Optional<User> userOption = userService.getUserWithAuthorities();
+        Teacher teacher = teacherRepository.findFirstByIdUserAuth(userOption.get().getId());
+
+        report.setIdTeacher(teacher.getId()+"");
+        report.setIdTopic(topic.getId()+"");
+        reportRepository.save(report);
+    }
+
+    @PostMapping("/deleteReport")
+    public void deleteReport(@RequestBody List<Long> reports) {
+        for (long id : reports) {
+            reportRepository.deleteById(id);
+        }
+    }
+
+    @GetMapping("/getListStudentbyTeacher")
+    public List<Student> getListStudentbyTeacher() {
+        Optional<User> userOption = userService.getUserWithAuthorities();
+        Teacher teacher = teacherRepository.findFirstByIdUserAuth(userOption.get().getId());
+        List<Student> studentList = studentRepository.findAllByIdTeacher(teacher.getId()+"");
+        return studentList;
+    }
 
 }

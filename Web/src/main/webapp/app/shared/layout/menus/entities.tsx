@@ -25,6 +25,11 @@ const Managerment = (
       Lớp
     </MenuItem>
 
+    <MenuItem icon="user" to="/report">
+      báo cáo tiến độ
+    </MenuItem>
+
+
   </>
 );
 
