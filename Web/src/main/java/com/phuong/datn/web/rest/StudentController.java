@@ -2,13 +2,16 @@ package com.phuong.datn.web.rest;
 
 
 import com.phuong.datn.config.Commons;
+import com.phuong.datn.domain.Authority;
 import com.phuong.datn.domain.Response.BaseResponse;
 import com.phuong.datn.domain.Student;
+import com.phuong.datn.domain.Teacher;
 import com.phuong.datn.domain.User;
 import com.phuong.datn.repository.StudentRepository;
 import com.phuong.datn.repository.TeacherRepository;
 import com.phuong.datn.repository.TopicRepository;
 import com.phuong.datn.repository.UserRepository;
+import com.phuong.datn.security.AuthoritiesConstants;
 import com.phuong.datn.service.StudentService;
 import com.phuong.datn.service.UserService;
 import com.phuong.datn.service.dto.UserDTO;
@@ -44,6 +47,9 @@ public class StudentController {
     StudentRepository studentRepository;
 
     @Autowired
+    TeacherRepository teacherRepository;
+
+    @Autowired
     UserRepository userRepository;
 
     @Autowired
@@ -52,7 +58,15 @@ public class StudentController {
 
     @GetMapping("/getAllStudent")
     public List<Student> getALlStudent() {
-        return studentRepository.findAll();
+        Optional<User> userOption = userService.getUserWithAuthorities();
+        Authority auth = userOption.get().getAuthorities().iterator().next();
+        if (auth.getName().equalsIgnoreCase(AuthoritiesConstants.ADMIN)) {
+            return studentRepository.findAll();
+        } else {
+            Teacher teacher = teacherRepository.findFirstByIdUserAuth(userOption.get().getId());
+            List<Student> students = studentRepository.findAllByIdTeacher(teacher.getId()+"");
+            return students;
+        }
     }
 
     @GetMapping("/getInfoStudent")
