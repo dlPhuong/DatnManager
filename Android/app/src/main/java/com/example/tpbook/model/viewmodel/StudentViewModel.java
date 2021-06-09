@@ -36,4 +36,18 @@ public class StudentViewModel extends ViewModel {
         });
         return newsData;
     }
+
+    public void saveStudent(Student student){
+        apiStudent.saveStudent(student).enqueue(new Callback<Student>() {
+            @Override
+            public void onResponse(Call<Student> call, Response<Student> response) {
+
+            }
+
+            @Override
+            public void onFailure(Call<Student> call, Throwable t) {
+
+            }
+        });
+    }
 }

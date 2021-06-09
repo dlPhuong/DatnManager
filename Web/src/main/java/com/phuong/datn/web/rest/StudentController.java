@@ -91,8 +91,9 @@ public class StudentController {
     }
 
     @PostMapping("/saveStudent")
-    public void saveStudent(@RequestBody Student student) {
+    public Student saveStudent(@RequestBody Student student) {
         studentRepository.save(student);
+        return student;
     }
 
     @PostMapping("/removeStudent")
