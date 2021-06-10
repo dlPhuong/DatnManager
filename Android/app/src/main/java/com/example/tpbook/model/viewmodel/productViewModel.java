@@ -3,9 +3,7 @@ package com.example.tpbook.model.viewmodel;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-import com.example.tpbook.model.data.TypeProduct;
 import com.example.tpbook.model.response.ProductResponse;
-import com.example.tpbook.service.APIproduct;
 import com.example.tpbook.service.RetrofitService;
 
 import java.util.List;

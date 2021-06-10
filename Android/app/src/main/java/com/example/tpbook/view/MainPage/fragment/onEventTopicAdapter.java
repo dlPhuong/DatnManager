@@ -1,7 +1,6 @@
 package com.example.tpbook.view.MainPage.fragment;
 
 
-import com.example.tpbook.model.data.Bill;
 import com.example.tpbook.model.data.Topic;
 
 public interface onEventTopicAdapter {

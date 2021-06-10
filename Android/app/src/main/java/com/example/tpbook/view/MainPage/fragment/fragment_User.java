@@ -1,4 +1,4 @@
-package com.example.tpbook.view.fragment;
+package com.example.tpbook.view.MainPage.fragment;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;

@@ -1,7 +1,6 @@
 package com.example.tpbook.model.response;
 
 
-import com.example.tpbook.model.data.Product;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 

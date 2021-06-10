@@ -23,7 +23,7 @@ import com.example.tpbook.model.viewmodel.teacherViewModel;
 import com.example.tpbook.utils.BottomNavigationBehavior;
 import com.example.tpbook.utils.Commons;
 import com.example.tpbook.view.MainPage.fragment.fragment_home;
-import com.example.tpbook.view.fragment.fragment_User;
+import com.example.tpbook.view.MainPage.fragment.fragment_User;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 
