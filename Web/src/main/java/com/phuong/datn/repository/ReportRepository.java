@@ -10,4 +10,5 @@ public interface ReportRepository extends JpaRepository<Report, Long> {
     List<Report> findAllByIdTeacherAndIdStudent(String idteach,String idStudent);
 
     List<Report> findAllByIdTeacher(String idTeach);
+    List<Report> findAllByIdStudent(String idstudent);
 }

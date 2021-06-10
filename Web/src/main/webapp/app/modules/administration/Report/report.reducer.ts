@@ -118,7 +118,7 @@ export const saveFile = async (file) => ({
 
 export const removeTOPIC= async (values) => ({
   type: ACTION_TYPES.DELETE_REPORT,
-  payload: await axios.post('api/deleteTopic', values),
+  payload: await axios.post('api/deleteReport', values),
 });
 
 export const loadStudent= async () => ({

@@ -73,10 +73,14 @@ export const ReportPage = (props: IReportPageProps) => {
 
   }
 
-
   async function handleSubmit(event, errors, values) {
+      console.log(visibleModal.data)
     values.idStudent = selectStudent ? selectStudent.id : null;
     values.id = visibleModal.data ? visibleModal.data.id : null;
+    if(visibleModal.mode=="Cập nhật"){
+      values.idFile = visibleModal ? visibleModal.data.idFile : null;
+      values.idStudent = visibleModal ? visibleModal.data.idStudent : null;
+    }
 
     if (selectedFile) {
       const formData = new FormData();
@@ -210,10 +214,16 @@ export const ReportPage = (props: IReportPageProps) => {
             <AvField name="status" label="trạng thái" value={visibleModal.data ? visibleModal.data.status : null}
                      required/>
 
+            <AvField name="mission" label="nhiệm vụ" value={visibleModal.data ? visibleModal.data.mission : null}
+                     required/>
+
             <AvField name="process" label="tiến độ" value={visibleModal.data ? visibleModal.data.process : null}
                      required/>
 
             <AvField name="deadline" label="thời hạn" value={visibleModal.data ? visibleModal.data.deadline : null}
+                     required/>
+
+            <AvField name="note" label="ghi chú" value={visibleModal.data ? visibleModal.data.note : null}
                      required/>
 
             {visibleModal.mode=="Thêm"?AddMode():null}

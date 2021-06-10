@@ -1,6 +1,7 @@
 package com.phuong.datn.service;
 
 
+import com.phuong.datn.config.Commons;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -69,6 +70,11 @@ public class fileStorageService {
         } catch (MalformedURLException e) {
             throw new RuntimeException("Error: " + e.getMessage());
         }
+    }
+
+    public void deleteFile(String filename){
+        File fileToDelete = new File(Commons.URL_IMAGE+filename);
+        fileToDelete.delete();
     }
 
 }

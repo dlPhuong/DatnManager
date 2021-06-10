@@ -6,6 +6,7 @@ import com.phuong.datn.repository.*;
 import com.phuong.datn.service.TopicService;
 import com.phuong.datn.service.UserService;
 import com.phuong.datn.service.dto.ReportDTO;
+import com.phuong.datn.service.fileStorageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -37,6 +38,10 @@ public class ReportController {
     @Autowired
     UserService userService;
 
+    @Autowired
+    fileStorageService fileStorageService;
+
+
 
     @GetMapping("/getAllReport")
     public List<ReportDTO> getAllReport() {
@@ -65,9 +70,10 @@ public class ReportController {
     }
 
     @PostMapping("/deleteReport")
-    public void deleteReport(@RequestBody List<Long> reports) {
-        for (long id : reports) {
-            reportRepository.deleteById(id);
+    public void deleteReport(@RequestBody List<Report> reports) {
+        for (Report report : reports) {
+            reportRepository.delete(report);
+            fileRepository.deleteById(Long.parseLong(report.getIdFile()));
         }
     }
 
@@ -77,6 +83,21 @@ public class ReportController {
         Teacher teacher = teacherRepository.findFirstByIdUserAuth(userOption.get().getId());
         List<Student> studentList = studentRepository.findAllByIdTeacher(teacher.getId()+"");
         return studentList;
+    }
+
+
+    @GetMapping("/getAllReportStudent")
+    public List<ReportDTO> getAllReportStudent() {
+        Optional<User> userOption = userService.getUserWithAuthorities();
+        Student student = studentRepository.findFirstByIdUserAuth(userOption.get().getId());
+        List<Report> reportList = reportRepository.findAllByIdStudent(student.getId()+"");
+        List<ReportDTO> reportDTOS = new ArrayList<>();
+        for(Report report:reportList){
+            File file = fileRepository.findFirstById(Long.parseLong(report.getIdFile()));
+            reportDTOS.add(new ReportDTO(report,student,file));
+        }
+
+        return reportDTOS;
     }
 
 }
