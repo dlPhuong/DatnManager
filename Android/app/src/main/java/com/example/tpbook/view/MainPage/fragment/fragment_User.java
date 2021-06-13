@@ -33,6 +33,7 @@ public class fragment_User  extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         binding = FragmentUserBinding.inflate(inflater, container, false);
         studentViewModel = new ViewModelProvider(getActivity()).get(StudentViewModel.class);
+        binding.include.toolbarTitle.setText("User");
         setupData();
         saveUser();
         return binding.getRoot();

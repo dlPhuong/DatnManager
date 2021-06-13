@@ -1,6 +1,8 @@
 package com.example.tpbook.view.MainPage.fragment;
 
 import android.content.Context;
+import android.graphics.Color;
+import android.graphics.PorterDuff;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -8,11 +10,11 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.tpbook.R;
 import com.example.tpbook.databinding.ItemTopicBinding;
 import com.example.tpbook.model.data.Topic;
-import com.example.tpbook.view.login.onEventBillAdapter;
+import com.example.tpbook.utils.Commons;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class adapterTopic extends RecyclerView.Adapter<adapterTopic.ViewHolder> {
@@ -40,6 +42,11 @@ public class adapterTopic extends RecyclerView.Adapter<adapterTopic.ViewHolder> 
         holder.binding.txtDescription.setText(topic.getDescription());
         holder.binding.txtNameStudent.setText(topic.getNameStudent());
         holder.binding.txtStatus.setText(topic.getStatus());
+        if(topic.getIdStudent()!=null){
+            if(topic.getIdStudent().equals(Commons.student.getId()+"")){
+                holder.binding.itemTopic.setBackgroundColor(Color.parseColor("#99FF66"));
+            }
+        }
         holder.binding.itemTopic.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

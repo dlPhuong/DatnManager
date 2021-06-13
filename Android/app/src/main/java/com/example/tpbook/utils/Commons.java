@@ -1,5 +1,6 @@
 package com.example.tpbook.utils;
 
+import com.example.tpbook.model.data.Report;
 import com.example.tpbook.model.data.Student;
 import com.example.tpbook.model.data.Teacher;
 import com.example.tpbook.model.data.Topic;
@@ -12,6 +13,8 @@ public class Commons {
     public static Teacher teacher = null;
     public static Student student = null;
     public static Topic topic = null;
+
+    public static Report report = null;
 
     public static User user = null;
 

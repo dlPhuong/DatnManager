@@ -18,8 +18,8 @@ import retrofit2.http.POST;
 
 public interface APIReport {
 
-    @GET("api/getAllReport")
-    Call<ReportResponse> getAllReport();
+    @GET("api/getAllReportStudent")
+    Call<List<Report>> getAllReport();
 
 
 }

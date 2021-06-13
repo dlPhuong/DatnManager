@@ -18,9 +18,9 @@ import java.util.List;
 public class adapterReport extends RecyclerView.Adapter<adapterReport.ViewHolder> {
     public List<Report> listTopic;
     Context context;
-    onEventTopicAdapter monEvent;
+    onEventReportAdapter monEvent;
 
-    public adapterReport(List<Report> listTopic, Context context, onEventTopicAdapter monEvent) {
+    public adapterReport(List<Report> listTopic, Context context, onEventReportAdapter monEvent) {
         this.listTopic = listTopic;
         this.context = context;
         this.monEvent = monEvent;
@@ -36,16 +36,17 @@ public class adapterReport extends RecyclerView.Adapter<adapterReport.ViewHolder
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Report topic = listTopic.get(position);
-//        holder.binding.txtTopicName.setText(topic.getTopicName());
-//        holder.binding.txtDescription.setText(topic.getDescription());
-//        holder.binding.txtNameStudent.setText(topic.getNameStudent());
-//        holder.binding.txtStatus.setText(topic.getStatus());
-//        holder.binding.itemTopic.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                monEvent.onClickItem(listTopic.get(position), position);
-//            }
-//        });
+        holder.binding.txtNameReport.setText(topic.getNameReport());
+        holder.binding.txtDeadline.setText(topic.getDeadline());
+        holder.binding.txtmission.setText(topic.getMission());
+        holder.binding.txtprocess.setText(topic.getProcess());
+        holder.binding.txtStatus.setText(topic.getStatus());
+        holder.binding.itemReport.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                monEvent.onClickItem(listTopic.get(position), position);
+            }
+        });
     }
 
     @Override
