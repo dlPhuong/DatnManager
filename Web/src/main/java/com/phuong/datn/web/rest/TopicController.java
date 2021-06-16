@@ -6,6 +6,7 @@ import com.phuong.datn.domain.Teacher;
 import com.phuong.datn.domain.Topic;
 import com.phuong.datn.domain.User;
 import com.phuong.datn.repository.StudentRepository;
+import com.phuong.datn.repository.TeacherRepository;
 import com.phuong.datn.repository.TopicRepository;
 import com.phuong.datn.service.TeacherService;
 import com.phuong.datn.service.TopicService;
@@ -31,6 +32,9 @@ public class TopicController {
     StudentRepository studentRepository;
 
     @Autowired
+    TeacherRepository teacherRepository;
+
+    @Autowired
     TopicService topicService;
 
     @Autowired
@@ -42,6 +46,13 @@ public class TopicController {
         Optional<User> userOption = userService.getUserWithAuthorities();
         Student student = studentRepository.findFirstByIdUserAuth(userOption.get().getId());
         return topicRepository.findByIdTeacher(student.getIdTeacher()+ "");
+    }
+
+    @GetMapping("/getAllTopicTeacher")
+    public List<Topic> getAllTopicTeacher() {
+        Optional<User> userOption = userService.getUserWithAuthorities();
+        Teacher student = teacherRepository.findFirstByIdUserAuth(userOption.get().getId());
+        return topicRepository.findByIdTeacher(student.getId()+ "");
     }
 
     @CrossOrigin(origins = "http://localhost:9000")

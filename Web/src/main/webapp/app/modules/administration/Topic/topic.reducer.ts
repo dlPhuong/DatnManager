@@ -93,7 +93,7 @@ export const handleRegister = (login, email, password, langKey = 'en') => ({
 // load TOPIC
 export const getTOPIC = async () => ({
   type: ACTION_TYPES.GET_TOPIC,
-  payload: await axios.get('api/getAllTopic'),
+  payload: await axios.get('api/getAllTopicTeacher'),
 });
 
 export const saveTOPIC = async (values) => ({
