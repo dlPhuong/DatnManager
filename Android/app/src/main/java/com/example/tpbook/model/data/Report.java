@@ -39,6 +39,29 @@ public class Report {
     @Expose
     private String note;
 
+    @SerializedName("filename")
+    @Expose
+    private String filename;
+    @SerializedName("namestudent")
+    @Expose
+    private String namestudent;
+
+    public String getFilename() {
+        return filename;
+    }
+
+    public void setFilename(String filename) {
+        this.filename = filename;
+    }
+
+    public String getNamestudent() {
+        return namestudent;
+    }
+
+    public void setNamestudent(String namestudent) {
+        this.namestudent = namestudent;
+    }
+
     public Integer getId() {
         return id;
     }

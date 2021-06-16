@@ -1,5 +1,6 @@
 package com.example.tpbook.model.viewmodel;
 
+import android.text.style.AlignmentSpan;
 import android.util.Log;
 
 import androidx.lifecycle.MutableLiveData;
@@ -26,9 +27,27 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class reportViewModel extends ViewModel {
-    private APITopic apiReport = ServiceGenerator.createService(APITopic.class);
+    private APIReport apiReport = ServiceGenerator.createService(APIReport.class);
 
-    private APILogin apiLoginWithAuth = ServiceGenerator.createService(APILogin.class, Commons.auth);
+    private APIReport apiLoginWithAuth = ServiceGenerator.createService(APIReport.class, Commons.auth);
 
+
+    public MutableLiveData<List<Report>> getReport(){
+        final MutableLiveData<List<Report>> newsData = new MutableLiveData<>();
+        apiLoginWithAuth.getAllReport().enqueue(new Callback<List<Report>>() {
+            @Override
+            public void onResponse(Call<List<Report>> call, Response<List<Report>> response) {
+                if(response.isSuccessful()){
+                    newsData.setValue(response.body());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<Report>> call, Throwable t) {
+
+            }
+        });
+        return newsData;
+    }
 
 }

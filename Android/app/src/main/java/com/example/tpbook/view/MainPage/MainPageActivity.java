@@ -23,7 +23,8 @@ import com.example.tpbook.model.viewmodel.teacherViewModel;
 import com.example.tpbook.utils.BottomNavigationBehavior;
 import com.example.tpbook.utils.Commons;
 import com.example.tpbook.view.MainPage.fragment.fragment_home;
-import com.example.tpbook.view.fragment.fragment_User;
+import com.example.tpbook.view.MainPage.fragment.fragment_User;
+import com.example.tpbook.view.MainPage.fragment.fragment_report;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 
@@ -39,14 +40,12 @@ public class MainPageActivity extends AppCompatActivity {
         binding = MainPageBinding.inflate(getLayoutInflater());
         View view = binding.getRoot();
         setContentView(view);
+
         mloginViewModel = new ViewModelProvider(this).get(loginViewModel.class);
         teacherViewModel = new ViewModelProvider(this).get(teacherViewModel.class);
         studentViewModel = new ViewModelProvider(this).get(StudentViewModel.class);
         loadData();
-        binding.navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
-        binding.navigation.setSelectedItemId(R.id.nav_home);
-        CoordinatorLayout.LayoutParams layoutParams = (CoordinatorLayout.LayoutParams) binding.navigation.getLayoutParams();
-        layoutParams.setBehavior(new BottomNavigationBehavior());
+
 
     }
 
@@ -59,14 +58,17 @@ public class MainPageActivity extends AppCompatActivity {
             switch (item.getItemId()) {
                 case R.id.nav_home:
                     fragment_home home = new fragment_home();
-                    binding.searchBar.searchBar.setVisibility(View.VISIBLE);
+//                    binding.searchBar.searchBar.setVisibility(View.VISIBLE);
                     loadFragment(home);
                     return true;
                 case R.id.nav_report:
+                    fragment_report report = new fragment_report();
+//                    binding.searchBar.searchBar.setVisibility(View.VISIBLE);
+                    loadFragment(report);
                     return true;
                 case R.id.nav_user:
                     fragment_User user = new fragment_User();
-                    binding.searchBar.searchBar.setVisibility(View.INVISIBLE);
+//                    binding.searchBar.searchBar.setVisibility(View.INVISIBLE);
                     loadFragment(user);
                     return true;
             }
@@ -98,6 +100,11 @@ public class MainPageActivity extends AppCompatActivity {
                 @Override
                 public void onChanged(Student student) {
                     Commons.student = student;
+
+                    binding.navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
+                    binding.navigation.setSelectedItemId(R.id.nav_home);
+                    CoordinatorLayout.LayoutParams layoutParams = (CoordinatorLayout.LayoutParams) binding.navigation.getLayoutParams();
+                    layoutParams.setBehavior(new BottomNavigationBehavior());
                 }
             });
         } else if (role.equals(Commons.TEACHER)) {
