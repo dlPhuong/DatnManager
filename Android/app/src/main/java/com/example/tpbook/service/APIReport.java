@@ -2,6 +2,7 @@ package com.example.tpbook.service;
 
 import com.example.tpbook.model.DTO.ManagedUserVM;
 import com.example.tpbook.model.data.Report;
+import com.example.tpbook.model.data.Student;
 import com.example.tpbook.model.data.Teacher;
 import com.example.tpbook.model.data.User;
 import com.example.tpbook.model.request.LoginRequest;
@@ -20,6 +21,9 @@ public interface APIReport {
 
     @GET("api/getAllReportStudent")
     Call<List<Report>> getAllReport();
+
+    @POST("api/updateReport")
+    Call<Report> saveReport(@Body Report student);
 
 
 }

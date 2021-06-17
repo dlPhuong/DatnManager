@@ -64,6 +64,7 @@ public class fragment_home extends Fragment implements onEventTopicAdapter {
             @Override
             public void onChanged(List<Topic> topicList) {
                 topics = topicList;
+                Commons.topicList = topicList;
                 setupRV();
                 //adapterTopic.notifyDataSetChanged();
             }

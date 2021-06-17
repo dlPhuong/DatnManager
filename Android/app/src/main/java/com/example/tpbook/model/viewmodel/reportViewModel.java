@@ -50,4 +50,21 @@ public class reportViewModel extends ViewModel {
         return newsData;
     }
 
+    public MutableLiveData<Report> saveReport(Report report){
+        final MutableLiveData<Report> newsData = new MutableLiveData<>();
+        apiLoginWithAuth.saveReport(report).enqueue(new Callback<Report>() {
+            @Override
+            public void onResponse(Call<Report> call, Response<Report> response) {
+                if(response.isSuccessful()){
+                    newsData.setValue(response.body());
+                }
+            }
+            @Override
+            public void onFailure(Call<Report> call, Throwable t) {
+
+            }
+        });
+        return newsData;
+    }
+
 }

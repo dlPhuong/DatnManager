@@ -42,6 +42,9 @@ public class adapterTopic extends RecyclerView.Adapter<adapterTopic.ViewHolder> 
         holder.binding.txtDescription.setText(topic.getDescription());
         holder.binding.txtNameStudent.setText(topic.getNameStudent());
         holder.binding.txtStatus.setText(topic.getStatus());
+        if(position%2==0){
+            holder.binding.itemTopic.setBackgroundColor(Color.parseColor("#CCCCCC"));
+        }
         if(topic.getIdStudent()!=null){
             if(topic.getIdStudent().equals(Commons.student.getId()+"")){
                 holder.binding.itemTopic.setBackgroundColor(Color.parseColor("#99FF66"));

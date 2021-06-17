@@ -59,7 +59,7 @@ public class ReportController {
     }
 
     @PostMapping("/saveReport")
-    public void saveReport(@RequestBody Report report) {
+    public Report saveReport(@RequestBody Report report) {
         Topic topic = topicRepository.findFirstByIdStudent(report.getIdStudent());
         Optional<User> userOption = userService.getUserWithAuthorities();
         Teacher teacher = teacherRepository.findFirstByIdUserAuth(userOption.get().getId());
@@ -67,6 +67,13 @@ public class ReportController {
         report.setIdTeacher(teacher.getId()+"");
         report.setIdTopic(topic.getId()+"");
         reportRepository.save(report);
+        return report;
+    }
+
+    @PostMapping("/updateReport")
+    public Report updateReport(@RequestBody Report report) {
+        reportRepository.save(report);
+        return report;
     }
 
     @PostMapping("/deleteReport")

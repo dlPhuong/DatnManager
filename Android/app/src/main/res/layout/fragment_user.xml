@@ -37,13 +37,13 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="230dp"
-                    android:background="@color/blue_grey_400"
                     android:orientation="vertical">
 
-                    <ImageView
+                    <de.hdodenhof.circleimageview.CircleImageView
                         android:id="@+id/imgProfile"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
+                        android:layout_width="200dp"
+                        android:layout_height="200dp"
+                        android:layout_gravity="center"
                         app:srcCompat="@drawable/ic_eye_24" />
 
                 </LinearLayout>
@@ -257,9 +257,17 @@
                 </LinearLayout>
                 <Button
                     android:id="@+id/btnsave"
-                    android:text="save"
-                    android:layout_width="match_parent"
-                    android:layout_height="40dp"/>
+                    android:layout_width="200dp"
+                    android:layout_height="55dp"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="-4dp"
+                    android:layout_marginRight="-4dp"
+                    android:layout_marginTop="16dp"
+                    android:background="@drawable/btn_rounded_green_300"
+                    android:text="LƯU"
+                    android:textAllCaps="false"
+                    android:textColor="@android:color/white"
+                    android:textStyle="bold" />
 
             </LinearLayout>
 
