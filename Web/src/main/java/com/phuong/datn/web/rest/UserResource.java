@@ -170,13 +170,17 @@ public class UserResource {
             Student student = new Student(userDTO);
             studentRepository.save(student);
             Teacher teacher = teacherRepository.findFirstByIdUserAuth(userDTO.getId());
-            teacherRepository.delete(teacher);
+            if(teacher!=null){
+                teacherRepository.delete(teacher);
+            }
         }
         if (auth.equalsIgnoreCase(AuthoritiesConstants.TEACHER)) {
             Teacher teacher = new Teacher(userDTO);
             teacherRepository.save(teacher);
             Student student = studentRepository.findFirstByIdUserAuth(userDTO.getId());
-            studentRepository.delete(student);
+            if(student!=null){
+                studentRepository.delete(student);
+            }
         }
     }
 

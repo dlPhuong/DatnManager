@@ -75,6 +75,17 @@ public class TopicController {
         topicRepository.save(topic);
     }
 
+    @PostMapping("/saveTopicStudent")
+    public Topic saveTopicStudent(@RequestBody Topic topic) {
+        if(topicRepository.findFirstByIdStudent(topic.getIdStudent()+"") !=null ){
+            return null;
+        }
+        Teacher teacher = teacherRepository.findFirstById(Long.parseLong(topic.getIdTeacher()));
+        topic.setNameTeacher(teacher.getNameTeacher());
+        topicRepository.save(topic);
+        return topic;
+    }
+
     @PostMapping("/deleteTopic")
     public void deleteTopic(@RequestBody List<Topic> topic) {
         for (Topic topic1 : topic) {

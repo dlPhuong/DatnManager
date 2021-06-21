@@ -11,6 +11,8 @@ public interface TeacherRepository extends JpaRepository<Teacher, Long> {
 
     Teacher findFirstByIdUserAuth(Long id);
 
+    Teacher findFirstById(Long id);
+
     void deleteByIdUserAuth(Long id);
 
 }

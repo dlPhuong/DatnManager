@@ -3,14 +3,21 @@ import React, {useState, useEffect, useRef} from 'react';
 import {connect} from 'react-redux';
 import {AvForm, AvField} from 'availity-reactstrap-validation';
 
-import {getStudent, handleRegister, removeStudent, reset, saveStudent} from './student.reducer';
+import {
+  getAllStudentWithOutTeacher,
+  getStudent,
+  handleRegister,
+  removeStudent,
+  reset,
+  saveStudent
+} from './student.reducer';
 import {Dialog} from "primereact/dialog";
 import {DataTable} from "primereact/datatable";
 import {Column} from "primereact/column";
 import {FileUpload} from "primereact/fileupload";
 import {Button} from 'primereact/button';
 import {InputText} from "primereact/inputtext";
-
+import { Dropdown } from 'primereact/dropdown';
 import {Toast} from 'primereact/toast';
 import axios from "axios";
 import {IRootState} from "app/shared/reducers";
@@ -32,15 +39,37 @@ export const StudentPage = (props: IStudentPageProps) => {
 
   const [count, setCount] = useState(0);
 
+  const [selectedCountry, setSelectedCountry] = useState(null);
+  const [studentList, setstudentList] = useState(null);
+
+
+
+
+
+  const onCountryChange = (e) => {
+    console.log(e.value.id);
+    setSelectedCountry(e.value);
+  }
+
+
   useEffect(() => {
     fetchMyAPI();
   }, []);
+
+  useEffect(() => {
+    fetchAPI();
+  }, []); // [] hàm điều kiện khi nào chạy lại use effect đó
 
 
   async function fetchMyAPI() {
     const student = await getStudent();
     setlistStudent(student.payload.data);
   }
+  async function fetchAPI() {
+    const student = await getAllStudentWithOutTeacher();
+    setstudentList(student.payload.data);
+  }
+
 
   function myUploader() {
   }
@@ -73,7 +102,7 @@ export const StudentPage = (props: IStudentPageProps) => {
 
 
   async function handleSubmit(event, errors, values) {
-    console.log(visibleModal.data);
+      console.log(visibleModal)
     values.id = visibleModal.data ? visibleModal.data.id : null;
     values.idTeacher = visibleModal.data ? visibleModal.data.idTeacher : null;
     values.idUserAuth = visibleModal.data ? visibleModal.data.idUserAuth : null;
@@ -89,7 +118,7 @@ export const StudentPage = (props: IStudentPageProps) => {
         })
         .catch((err) => alert("File Upload Error"));
     }
-    saveStudent(values);
+    saveStudent(selectedCountry);
     if (values.id != null) { // edit
       var arraystudent = liststudent
       var pos;
@@ -105,12 +134,34 @@ export const StudentPage = (props: IStudentPageProps) => {
       setStudent(null);
     } else { // addd
       var newArray = liststudent;
-      newArray.push(values);
+      newArray.push(selectedCountry);
       toastTL.current.show({severity: 'success', summary: 'Info Message', detail: 'Thêm mới thành công', life: 3000});
       setlistStudent(newArray);
     }
     onHide();
     event.preventDefault();
+  }
+
+  const selectedCountryTemplate = (option, props) => {
+    if (option) {
+      return (
+        <div className="country-item country-item-value">
+          <img alt={option.name} width="50" height="50" src={`http://localhost:8080/images/` + option.image}
+               onError={(e) => e.target.src = 'https://www.primefaces.org/wp-content/uploads/2020/05/placeholder.png'}
+               className={`flag flag-${option.name}`}/>
+          <div>{option.name}</div>
+        </div>
+      );
+    }
+  }
+
+  const countryOptionTemplate = (option) => {
+    return (
+      <div className="country-item">
+        <img alt={option.name} width="50" height="50"  src={`http://localhost:8080/images/` + option.image} onError={(e) => e.target.src = 'https://www.primefaces.org/wp-content/uploads/2020/05/placeholder.png'} className={`flag flag-${option.name}`} />
+        <div>{option.name}</div>
+      </div>
+    );
   }
 
   const paginatorLeft = <Button type="button" icon="pi pi-refresh" className="p-button-text"/>;
@@ -188,23 +239,40 @@ export const StudentPage = (props: IStudentPageProps) => {
         <div className="p-fluid">
 
           <AvForm onSubmit={handleSubmit}>
-            <AvField name="name" label="Name" value={visibleModal.data ? visibleModal.data.name : null} required/>
-            <AvField name="birthDay" label="ngày sinh" value={visibleModal.data ? visibleModal.data.birthDay : null}
-                     required/>
-            <AvField name="address" label="Địa chỉ" value={visibleModal.data ? visibleModal.data.address : null}
-                     required/>
 
-            <AvField name="idClass" label="mã lớp" value={visibleModal.data ? visibleModal.data.address : null}
-                     required/>
+            {visibleModal.mode == 'Thêm'?
+              <div className="p-d-flex">
+              <h5>chọn sinh viên</h5>
+              <Dropdown style={{height:'50px'}} value={selectedCountry} options={studentList} onChange={onCountryChange} optionLabel="name" filter showClear filterBy="name" placeholder="Select a Country"
+                        valueTemplate={selectedCountryTemplate} itemTemplate={countryOptionTemplate} />
+              </div>
+              :null}
 
-            <AvField name="maSinhVien" label="Mã sinh viên" value={visibleModal.data ? visibleModal.data.address : null}
-                     required/>
+            {visibleModal.mode != 'Thêm' ?
+              <div className="p-d-flex">
+              <AvField name="name" label="Name" value={visibleModal.data ? visibleModal.data.name : null} required/>
+              <AvField name="birthDay" label="ngày sinh" value={visibleModal.data ? visibleModal.data.birthDay : null}
+                       required/>
+              <AvField name="address" label="Địa chỉ" value={visibleModal.data ? visibleModal.data.address : null}
+              required/>
 
-            <AvField name="phone" label="Số điện thoại" value={visibleModal.data ? visibleModal.data.phone : null}
-                     required/>
-            <AvField name="image" label="Avartar" type="file" accept="image/png, image/jpeg"
-                     onChange={(e) => setSelectedFile(e.target.files[0])}
-                     required/>
+              <AvField name="idClass" label="mã lớp" value={visibleModal.data ? visibleModal.data.address : null}
+              required/>
+
+              <AvField name="maSinhVien" label="Mã sinh viên" value={visibleModal.data ? visibleModal.data.address : null}
+              required/>
+
+              <AvField name="phone" label="Số điện thoại" value={visibleModal.data ? visibleModal.data.phone : null}
+              required/>
+              <AvField name="image" label="Avartar" type="file" accept="image/png, image/jpeg"
+              onChange={(e) => setSelectedFile(e.target.files[0])}
+              required/>
+              </div>
+              :null}
+
+
+
+
             <div className="p-d-flex">
               <Button label={visibleModal.mode} icon="pi pi-check"/>
               <Button className="p-mr-2 p-button-danger" label="Cancel" icon="pi pi-times" onClick={onHide}/>
@@ -224,7 +292,7 @@ const mapStateToProps = ({ student }: IRootState) => ({
   listStudent: student.listStudent,
 });
 
-const mapDispatchToProps = {getStudent, saveStudent, removeStudent, handleRegister, reset};
+const mapDispatchToProps = {getStudent, saveStudent, removeStudent, handleRegister,getAllStudentWithOutTeacher, reset};
 type StateProps = ReturnType<typeof mapStateToProps>;
 type DispatchProps = typeof mapDispatchToProps;
 

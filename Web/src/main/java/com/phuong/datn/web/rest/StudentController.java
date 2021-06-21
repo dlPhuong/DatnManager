@@ -106,6 +106,10 @@ public class StudentController {
 
     @PostMapping("/saveStudent")
     public Student saveStudent(@RequestBody Student student) {
+        Optional<User> userOption = userService.getUserWithAuthorities();
+        Long id = userOption.get().getId();
+        Teacher teacher = teacherRepository.findFirstByIdUserAuth(id);
+        student.setIdTeacher(teacher.getId()+"");
         studentRepository.save(student);
         return student;
     }
@@ -114,5 +118,20 @@ public class StudentController {
     public void removeStudent(@RequestBody List<Student> student) {
         studentService.removeStudent(student);
     }
+
+    @GetMapping("/getAllStudentWithOutTeacher")
+    public List<Student> getAllStudentWithOutTeacher() {
+        List<Student> studentList = studentRepository.findAll();
+        for (Student student : studentList){
+            if(student.getIdTeacher()!=null){
+                studentList.remove(student);
+            }
+        }
+        return studentList;
+    }
+
+
+
+
 
 }
