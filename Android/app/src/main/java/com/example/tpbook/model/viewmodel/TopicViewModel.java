@@ -38,4 +38,23 @@ public class TopicViewModel extends ViewModel {
             });
         return newsData;
     }
+
+    public MutableLiveData<Topic> saveTopicStudent(Topic topic){
+        final MutableLiveData<Topic> newsData = new MutableLiveData<>();
+        apiStudent.saveTopicStudent(topic).enqueue(new Callback<Topic>() {
+            @Override
+            public void onResponse(Call<Topic> call, Response<Topic> response) {
+                if(response.isSuccessful()){
+                    newsData.setValue(response.body());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Topic> call, Throwable t) {
+                newsData.setValue(null);
+            }
+        });
+        return newsData;
+    }
+
 }
