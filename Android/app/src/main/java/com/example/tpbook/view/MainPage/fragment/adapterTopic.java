@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.tpbook.R;
@@ -43,11 +44,11 @@ public class adapterTopic extends RecyclerView.Adapter<adapterTopic.ViewHolder> 
         holder.binding.txtNameStudent.setText(topic.getNameStudent());
         holder.binding.txtStatus.setText(topic.getStatus());
         if(position%2==0){
-            holder.binding.itemTopic.setBackgroundColor(Color.parseColor("#CCCCCC"));
+            holder.binding.itemTopic.setBackground(ContextCompat.getDrawable(context, R.drawable.item_lv1));
         }
         if(topic.getIdStudent()!=null){
             if(topic.getIdStudent().equals(Commons.student.getId()+"")){
-                holder.binding.itemTopic.setBackgroundColor(Color.parseColor("#99FF66"));
+                holder.binding.itemTopic.setBackground(ContextCompat.getDrawable(context, R.drawable.item_listv));
             }
         }
         holder.binding.itemTopic.setOnClickListener(new View.OnClickListener() {

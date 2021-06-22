@@ -73,7 +73,8 @@ public class StudentController {
     public Student getInfoStudent() {
         Optional<User> userOption = userService.getUserWithAuthorities();
         Long id = userOption.get().getId();
-        return studentRepository.findFirstByIdUserAuth(id);
+        Student student = studentRepository.findFirstByIdUserAuth(id);
+        return student;
     }
 
     private String fileLocation;
@@ -128,6 +129,13 @@ public class StudentController {
             }
         }
         return studentList;
+    }
+
+
+    @PostMapping("/updateStudent")
+    public Student updateStudent(@RequestBody Student student) {
+        studentRepository.save(student);
+        return student;
     }
 
 
