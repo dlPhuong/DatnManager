@@ -48,6 +48,10 @@ public class Student {
     @Expose
     private String note;
 
+    @SerializedName("idUserAuth")
+    @Expose
+    private String idUserAuth;
+
     public Integer getId() {
         return id;
     }
@@ -150,6 +154,22 @@ public class Student {
 
     public void setNote(String note) {
         this.note = note;
+    }
+
+    public String getMaSinhVien() {
+        return maSinhVien;
+    }
+
+    public void setMaSinhVien(String maSinhVien) {
+        this.maSinhVien = maSinhVien;
+    }
+
+    public String getIdUserAuth() {
+        return idUserAuth;
+    }
+
+    public void setIdUserAuth(String idUserAuth) {
+        this.idUserAuth = idUserAuth;
     }
 
     @Override

@@ -55,6 +55,7 @@ public class fragment_home extends Fragment implements onEventTopicAdapter {
         topicViewModel = new ViewModelProvider(getActivity()).get(TopicViewModel.class);
         teacherViewModel = new ViewModelProvider(getActivity()).get(teacherViewModel.class);
         binding.include.toolbarTitle.setText("Home");
+        binding.include.imgback.setVisibility(View.GONE);
         laodDataRV();
         return binding.getRoot();
     }

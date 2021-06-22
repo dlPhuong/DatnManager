@@ -40,6 +40,7 @@ public class fragment_report extends Fragment implements onEventReportAdapter {
         binding = FragmentReportBinding.inflate(inflater, container, false);
         reportViewModel = new ViewModelProvider(getActivity()).get(reportViewModel.class);
         binding.include.toolbarTitle.setText("Report");
+        binding.include.imgback.setVisibility(View.GONE);
         reportViewModel.getReport().observe(getActivity(), new Observer<List<Report>>() {
             @Override
             public void onChanged(List<Report> reports) {

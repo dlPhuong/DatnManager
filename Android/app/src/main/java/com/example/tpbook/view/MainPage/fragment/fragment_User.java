@@ -34,6 +34,7 @@ public class fragment_User  extends Fragment {
         binding = FragmentUserBinding.inflate(inflater, container, false);
         studentViewModel = new ViewModelProvider(getActivity()).get(StudentViewModel.class);
         binding.include.toolbarTitle.setText("User");
+        binding.include.imgback.setVisibility(View.GONE);
         setupData();
         saveUser();
         return binding.getRoot();
@@ -47,7 +48,14 @@ public class fragment_User  extends Fragment {
                 Commons.student.setAddress(binding.edtaddress.getText().toString());
                 Commons.student.setPhone(binding.edtphonenumber.getText().toString());
                 Commons.student.setLinkGithub(binding.edtlinkgithub.getText().toString());
-                studentViewModel.saveStudent(Commons.student);
+                studentViewModel.saveStudent(Commons.student).observe(getActivity(), new Observer<Student>() {
+                    @Override
+                    public void onChanged(Student student) {
+                        if(student!=null){
+                            Toast.makeText(getActivity(), "update thành công", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
             }
         });
     }

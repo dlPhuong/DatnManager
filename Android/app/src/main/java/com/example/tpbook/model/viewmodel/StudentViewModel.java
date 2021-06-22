@@ -37,11 +37,14 @@ public class StudentViewModel extends ViewModel {
         return newsData;
     }
 
-    public void saveStudent(Student student){
+    public MutableLiveData<Student> saveStudent(Student student){
+        MutableLiveData<Student> newsData = new MutableLiveData<>();
         apiStudent.saveStudent(student).enqueue(new Callback<Student>() {
             @Override
             public void onResponse(Call<Student> call, Response<Student> response) {
-
+                if(response.isSuccessful()){
+                    newsData.setValue(response.body());
+                }
             }
 
             @Override
@@ -49,5 +52,6 @@ public class StudentViewModel extends ViewModel {
 
             }
         });
+        return newsData;
     }
 }

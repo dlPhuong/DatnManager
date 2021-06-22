@@ -14,7 +14,7 @@ public interface APIStudent {
     @GET("api/getInfoStudent")
     Call<Student> getInfoStudent();
 
-    @POST("api/saveStudent")
+    @POST("api/updateStudent")
     Call<Student> saveStudent(@Body Student student);
 
 
