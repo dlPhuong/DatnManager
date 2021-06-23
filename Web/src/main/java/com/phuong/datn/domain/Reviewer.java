@@ -23,12 +23,43 @@ public class Reviewer extends AbstractAuditingEntity implements Serializable {
     @Column(name = "idgv2")
     private String idGv2;
 
+
+    @Column(name = "sttgv1")
+    private String sttGv1;
+
+    @Column(name = "sttgv2")
+    private String sttGv2;
+
+    private String nameGv1;
+
+    private String nameGv2;
+
+    private String imageGv1;
+
+    private String imageGv2;
+
     public Long getId() {
         return id;
     }
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public String getSttGv1() {
+        return sttGv1;
+    }
+
+    public void setSttGv1(String sttGv1) {
+        this.sttGv1 = sttGv1;
+    }
+
+    public String getSttGv2() {
+        return sttGv2;
+    }
+
+    public void setSttGv2(String sttGv2) {
+        this.sttGv2 = sttGv2;
     }
 
     public String getNameReviewer() {
@@ -53,6 +84,38 @@ public class Reviewer extends AbstractAuditingEntity implements Serializable {
 
     public void setIdGv2(String idGv2) {
         this.idGv2 = idGv2;
+    }
+
+    public String getNameGv1() {
+        return nameGv1;
+    }
+
+    public void setNameGv1(String nameGv1) {
+        this.nameGv1 = nameGv1;
+    }
+
+    public String getNameGv2() {
+        return nameGv2;
+    }
+
+    public void setNameGv2(String nameGv2) {
+        this.nameGv2 = nameGv2;
+    }
+
+    public String getImageGv1() {
+        return imageGv1;
+    }
+
+    public void setImageGv1(String imageGv1) {
+        this.imageGv1 = imageGv1;
+    }
+
+    public String getImageGv2() {
+        return imageGv2;
+    }
+
+    public void setImageGv2(String imageGv2) {
+        this.imageGv2 = imageGv2;
     }
 
     @Override
