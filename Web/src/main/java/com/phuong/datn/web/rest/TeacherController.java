@@ -11,6 +11,7 @@ import com.phuong.datn.repository.FileRepository;
 import com.phuong.datn.repository.ReportRepository;
 import com.phuong.datn.repository.TeacherRepository;
 import com.phuong.datn.repository.TopicRepository;
+import com.phuong.datn.security.AuthoritiesConstants;
 import com.phuong.datn.service.TeacherService;
 import com.phuong.datn.service.UserService;
 import com.phuong.datn.service.dto.UserDTO;
@@ -45,6 +46,11 @@ public class TeacherController {
         Optional<User> userOption = userService.getUserWithAuthorities();
         Long id = userOption.get().getId();
         return teacherRepository.findFirstByIdUserAuth(id);
+    }
+
+    @GetMapping("/getAllTeacher")
+    public List<Teacher> getAllTeacher() {
+        return teacherRepository.findAll();
     }
 
 

@@ -1,16 +1,16 @@
 package com.phuong.datn.web.rest;
 
 
-import com.phuong.datn.domain.Student;
-import com.phuong.datn.domain.Teacher;
-import com.phuong.datn.domain.Topic;
-import com.phuong.datn.domain.User;
+import com.phuong.datn.config.Constants;
+import com.phuong.datn.domain.*;
 import com.phuong.datn.repository.StudentRepository;
 import com.phuong.datn.repository.TeacherRepository;
 import com.phuong.datn.repository.TopicRepository;
+import com.phuong.datn.security.AuthoritiesConstants;
 import com.phuong.datn.service.TeacherService;
 import com.phuong.datn.service.TopicService;
 import com.phuong.datn.service.UserService;
+import com.phuong.datn.service.dto.ReportDTO;
 import jdk.nashorn.internal.runtime.options.Option;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -51,6 +51,9 @@ public class TopicController {
     @GetMapping("/getAllTopicTeacher")
     public List<Topic> getAllTopicTeacher() {
         Optional<User> userOption = userService.getUserWithAuthorities();
+        if(userOption.get().getAuthorities().iterator().next().getName().equalsIgnoreCase(AuthoritiesConstants.ADMIN)){
+            return topicRepository.findAll();
+        }
         Teacher student = teacherRepository.findFirstByIdUserAuth(userOption.get().getId());
         return topicRepository.findByIdTeacher(student.getId()+ "");
     }

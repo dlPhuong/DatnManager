@@ -3,6 +3,7 @@ package com.phuong.datn.web.rest;
 
 import com.phuong.datn.domain.*;
 import com.phuong.datn.repository.*;
+import com.phuong.datn.security.AuthoritiesConstants;
 import com.phuong.datn.service.TopicService;
 import com.phuong.datn.service.UserService;
 import com.phuong.datn.service.dto.ReportDTO;
@@ -46,9 +47,20 @@ public class ReportController {
     @GetMapping("/getAllReport")
     public List<ReportDTO> getAllReport() {
         Optional<User> userOption = userService.getUserWithAuthorities();
+        List<ReportDTO> reportDTOS = new ArrayList<>();
+
+        if(userOption.get().getAuthorities().iterator().next().getName().equalsIgnoreCase(AuthoritiesConstants.ADMIN)){
+             List<Report> reportDTOS1 = reportRepository.findAll();
+            for(Report report : reportDTOS1){
+                Student student = studentRepository.findFirstById(Long.parseLong(report.getIdStudent()));
+                File file = fileRepository.findFirstById(Long.parseLong(report.getIdFile()));
+                reportDTOS.add(new ReportDTO(report,student,file));
+            }
+            return  reportDTOS;
+        }
+
         Teacher teacher = teacherRepository.findFirstByIdUserAuth(userOption.get().getId());
         List<Report> reportList = reportRepository.findAllByIdTeacher(teacher.getId()+"");
-        List<ReportDTO> reportDTOS = new ArrayList<>();
         for(Report report:reportList){
             Student student = studentRepository.findFirstById(Long.parseLong(report.getIdStudent()));
             File file = fileRepository.findFirstById(Long.parseLong(report.getIdFile()));
