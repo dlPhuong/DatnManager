@@ -70,7 +70,8 @@ public class TopicController {
     @PostMapping("/saveTopic")
     public void saveTopic(@RequestBody Topic topic) {
         Optional<User> userOption = userService.getUserWithAuthorities();
-        topic.setIdTeacher(userOption.get().getId() + "");
+        Teacher teacher = teacherRepository.findFirstByIdUserAuth(userOption.get().getId());
+        topic.setIdTeacher( teacher.getId()+ "");
         topic.setNameTeacher(userOption.get().getFirstName() + " " + userOption.get().getLastName() + "");
         topicRepository.save(topic);
     }
