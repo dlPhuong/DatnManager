@@ -128,12 +128,13 @@ public class StudentController {
     @GetMapping("/getAllStudentWithOutTeacher")
     public List<Student> getAllStudentWithOutTeacher() {
         List<Student> studentList = studentRepository.findAll();
+        List<Student> studentTemp = new ArrayList<>();
         for (Student student : studentList){
-            if(student.getIdTeacher()!=null){
-                studentList.remove(student);
+            if(student.getIdTeacher()==null){
+                studentTemp.add(student);
             }
         }
-        return studentList;
+        return studentTemp;
     }
 
 
