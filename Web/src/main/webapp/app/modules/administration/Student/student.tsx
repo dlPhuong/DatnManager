@@ -21,6 +21,7 @@ import { Dropdown } from 'primereact/dropdown';
 import {Toast} from 'primereact/toast';
 import axios from "axios";
 import {IRootState} from "app/shared/reducers";
+import value from "*.json";
 
 
 export interface IStudentPageProps extends StateProps, DispatchProps {}
@@ -118,6 +119,7 @@ export const StudentPage = (props: IStudentPageProps) => {
         })
         .catch((err) => alert("File Upload Error"));
     }
+    saveStudent(values);
     saveStudent(selectedCountry);
     if (values.id != null) { // edit
       var arraystudent = liststudent

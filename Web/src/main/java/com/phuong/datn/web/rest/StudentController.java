@@ -108,6 +108,11 @@ public class StudentController {
     @PostMapping("/saveStudent")
     public Student saveStudent(@RequestBody Student student) {
         Optional<User> userOption = userService.getUserWithAuthorities();
+
+        if(userOption.get().getAuthorities().iterator().next().getName().equalsIgnoreCase(AuthoritiesConstants.ADMIN)){
+            studentRepository.save(student);
+            return student;
+        }
         Long id = userOption.get().getId();
         Teacher teacher = teacherRepository.findFirstByIdUserAuth(id);
         student.setIdTeacher(teacher.getId()+"");
